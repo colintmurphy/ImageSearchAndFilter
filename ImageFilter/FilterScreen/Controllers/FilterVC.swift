@@ -58,7 +58,7 @@ extension FilterVC: UITableViewDataSource {
             for: indexPath) as? ProviderTableViewCell else { fatalError("couldn't create ProviderTableViewCell") }
 
         if let providerItem = self.providerList?[indexPath.row] {
-            cell.set(name: providerItem.provider.name, isOn: providerItem.isOn)
+            cell.set(name: providerItem.provider.name, isOn: providerItem.isOn, provider: providerItem.provider)
             cell.delegate = self.delegate
         }
 

@@ -22,8 +22,16 @@ class ImageTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func setImage(with image: UIImage) {
-        self.cellImageView.image = image
+    func setImage(with imageUrl: String) {
+
+        guard let url = URL(string: imageUrl) else { return }
+
+        do {
+            let data = try Data(contentsOf: url)
+            self.cellImageView.image = UIImage(data: data)
+        } catch {
+            print(error)
+        }
     }
 
     private func setupUI() {

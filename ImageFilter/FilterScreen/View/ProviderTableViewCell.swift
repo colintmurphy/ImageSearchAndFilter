@@ -14,20 +14,29 @@ class ProviderTableViewCell: UITableViewCell {
 
     static var reuseId = "ProviderTableViewCell"
     weak var delegate: ProviderDelegate?
+    private var provider: Provider?
 
     override func awakeFromNib() {
+
         super.awakeFromNib()
+        self.providerSwitch.addTarget(self, action: #selector(self.switched), for: .valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 
-    func set(name: String, isOn: Bool) {
+    func set(name: String, isOn: Bool, provider: Provider) {
 
+        self.provider = provider
         self.providerLabel.text = name
         self.providerSwitch.isOn = isOn
     }
 
-    #warning("check when switch changes, and use the delegate here")
+    @objc private func switched() {
+
+        guard let provider = self.provider else { return }
+        print("switch is: ", self.providerSwitch.isOn)
+        self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)
+    }
 }
