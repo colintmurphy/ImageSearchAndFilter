@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rXr-gP-3Ea">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rXr-gP-3Ea">
                                 <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -31,17 +31,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="180"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7T-LR-zkO">
-                                                    <rect key="frame" x="28" y="19" width="358" height="142"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7T-LR-zkO">
+                                                    <rect key="frame" x="112.5" y="19" width="189" height="142"/>
+                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="125" id="7qM-Ny-q0v"/>
+                                                        <constraint firstAttribute="width" secondItem="g7T-LR-zkO" secondAttribute="height" multiplier="4:3" id="BgF-R5-EGt"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="g7T-LR-zkO" firstAttribute="leading" secondItem="a9k-RP-Jg6" secondAttribute="leadingMargin" constant="8" id="TUM-Ra-Axr"/>
+                                                <constraint firstItem="g7T-LR-zkO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a9k-RP-Jg6" secondAttribute="leadingMargin" constant="8" id="TUM-Ra-Axr"/>
                                                 <constraint firstItem="g7T-LR-zkO" firstAttribute="top" secondItem="a9k-RP-Jg6" secondAttribute="topMargin" constant="8" id="hIx-k0-4Gf"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="g7T-LR-zkO" secondAttribute="bottom" constant="8" id="iH6-MU-V9H"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="g7T-LR-zkO" secondAttribute="trailing" constant="8" id="oSh-ZQ-uzR"/>
+                                                <constraint firstItem="g7T-LR-zkO" firstAttribute="centerX" secondItem="a9k-RP-Jg6" secondAttribute="centerX" id="j1k-pS-weT"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="g7T-LR-zkO" secondAttribute="trailing" constant="8" id="oSh-ZQ-uzR"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cellImageView" destination="g7T-LR-zkO" id="Xpr-OR-mbz"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

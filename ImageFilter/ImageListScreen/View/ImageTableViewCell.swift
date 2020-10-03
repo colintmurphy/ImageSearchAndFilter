@@ -11,7 +11,7 @@ class ImageTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var cellImageView: UIImageView!
 
-    static var reuseId = "ImageCollectionViewCell"
+    static var reuseId = "ImageTableViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,7 +23,20 @@ class ImageTableViewCell: UITableViewCell {
     }
 
     func setImage(with imageUrl: String) {
+        
+        //self.cellImageView.image = NetworkManager.shared.downloadImage(with: imageUrl)
+        
+        self.cellImageView.image = nil
+        
+        NetworkManager.shared.downloadImage(with: imageUrl) { (image) in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.cellImageView.image = image
+                }
+            }
+        }
 
+        /*
         guard let url = URL(string: imageUrl) else { return }
 
         do {
@@ -31,10 +44,10 @@ class ImageTableViewCell: UITableViewCell {
             self.cellImageView.image = UIImage(data: data)
         } catch {
             print(error)
-        }
+        }*/
     }
 
     private func setupUI() {
-
+        self.cellImageView.layer.cornerRadius = 10
     }
 }

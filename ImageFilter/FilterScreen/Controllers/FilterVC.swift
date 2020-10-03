@@ -17,6 +17,7 @@ class FilterVC: UIViewController {
 
     var providerList: [(provider: Provider, isOn: Bool)]?
     weak var delegate: ProviderDelegate?
+    private var numberOfFiltersOn: Int?
 
     // MARK: - View Life Cycles
 
@@ -33,23 +34,12 @@ class FilterVC: UIViewController {
     }
 }
 
-// MARK: - UITableViewDelegate
-
-extension FilterVC: UITableViewDelegate {
-
-
-}
-
 // MARK: - UITableViewDataSource
 
 extension FilterVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        if let providerCount = self.providerList?.count {
-            return providerCount
-        }
-        return 0
+        return self.providerList?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,10 +48,26 @@ extension FilterVC: UITableViewDataSource {
             for: indexPath) as? ProviderTableViewCell else { fatalError("couldn't create ProviderTableViewCell") }
 
         if let providerItem = self.providerList?[indexPath.row] {
-            cell.set(name: providerItem.provider.name, isOn: providerItem.isOn, provider: providerItem.provider)
             cell.delegate = self.delegate
+            cell.oneDelegate = self
+            cell.set(provider: providerItem)
         }
+        
+        #warning("need to send alert if try to turn the last ON to OFF")
 
         return cell
+    }
+}
+
+// MARK: - OneOnDelegate
+
+protocol OneOnDelegate: class {
+    func sendAlert()
+}
+
+extension FilterVC: OneOnDelegate {
+    
+    func sendAlert() {
+        self.showAlert(title: "Sorry", message: "You need to keep at least one filter on.")
     }
 }

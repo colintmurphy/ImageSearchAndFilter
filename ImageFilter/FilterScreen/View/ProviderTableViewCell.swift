@@ -13,30 +13,50 @@ class ProviderTableViewCell: UITableViewCell {
     @IBOutlet private weak var providerSwitch: UISwitch!
 
     static var reuseId = "ProviderTableViewCell"
-    weak var delegate: ProviderDelegate?
     private var provider: Provider?
+    
+    weak var delegate: ProviderDelegate?
+    weak var oneDelegate: OneOnDelegate?
 
     override func awakeFromNib() {
 
         super.awakeFromNib()
         self.providerSwitch.addTarget(self, action: #selector(self.switched), for: .valueChanged)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listen), name: NSNotification.Name.init("SwitchStatus"), object: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 
-    func set(name: String, isOn: Bool, provider: Provider) {
+    func set(provider: (provider: Provider, isOn: Bool)) {
 
-        self.provider = provider
-        self.providerLabel.text = name
-        self.providerSwitch.isOn = isOn
+        self.provider = provider.provider
+        self.providerLabel.text = provider.provider.name
+        self.providerSwitch.isOn = provider.isOn
+    }
+    
+    @objc func listen() {
+        
     }
 
     @objc private func switched() {
-
+        
         guard let provider = self.provider else { return }
-        print("switch is: ", self.providerSwitch.isOn)
+        
         self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listen), name: NSNotification.Name.init("SwithStatus"), object: nil)
+        
+        self.oneDelegate?.sendAlert()
+        
+        /*
+        if (self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)) != nil {
+            print()
+            
+            self.providerSwitch.isOn = true
+        }*/
+        
+        #warning("need to send alert if try to turn the last ON to OFF")
     }
 }
