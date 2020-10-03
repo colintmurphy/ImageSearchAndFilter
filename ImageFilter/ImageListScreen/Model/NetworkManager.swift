@@ -126,9 +126,7 @@ class NetworkManager {
         case .blackWhite:
             filter?.setValue(0.0, forKey: kCIInputSaturationKey)
             filter?.setValue(0.9, forKey: kCIInputContrastKey)
-        case .sepia:
-            filter?.setValue(1.0, forKey: kCIInputIntensityKey)
-        case .bloom:
+        case .sepia, .bloom:
             filter?.setValue(1.0, forKey: kCIInputIntensityKey)
         }
         return filter?.outputImage

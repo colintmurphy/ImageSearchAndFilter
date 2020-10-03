@@ -113,7 +113,7 @@ extension ImageListVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         let text = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        if text.count <= 5 { return }
+        if text.count < 5 { return }
         self.searchWorkItem?.cancel()
 
         // MARK: LoaderUI DispatchWorkItem
