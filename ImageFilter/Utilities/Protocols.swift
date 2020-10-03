@@ -14,3 +14,7 @@ protocol ProviderDelegate: class {
 protocol SwitchDelegate: class {
     func shouldSwitchChange(provider: Provider, isOn: Bool) -> Bool
 }
+
+protocol ImageFilterDelegate: class {
+    func updateImageFilers(with filter: ImageFilterType)
+}

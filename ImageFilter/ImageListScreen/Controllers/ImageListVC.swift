@@ -17,13 +17,16 @@ class ImageListVC: UIViewController {
     @IBOutlet private weak var noImagesLabel: UILabel!
 
     // MARK: - Variables
-
-    private let concurrentQueue = DispatchQueue(label: "my.concurrent.queue", attributes: .concurrent)
-    private var searchWorkItem: DispatchWorkItem?
     
     var providerList: [(provider: Provider, isOn: Bool)] = []
+    var imageFilterOn: ImageFilterType = .original
     private var providerImageDict: [String: [ResponseImage]] = [:]
     private var sectionTitle: [ApiRequestType] = []
+    
+    // MARK: - Dispatches
+    
+    private let concurrentQueue = DispatchQueue(label: "my.concurrent.queue", attributes: .concurrent)
+    private var searchWorkItem: DispatchWorkItem?
 
     // MARK: - View Life Cycles
 
@@ -44,7 +47,6 @@ class ImageListVC: UIViewController {
         } else if parameters["q"] != nil {
             parameters["q"] = text
         }
-        
         return parameters
     }
 
@@ -96,85 +98,11 @@ class ImageListVC: UIViewController {
         if segue.identifier == "toFilter" {
             if let filterVC = segue.destination as? FilterVC {
                 filterVC.providerList = self.providerList
-                filterVC.delegate = self
+                filterVC.imageFilterOn = self.imageFilterOn
+                filterVC.providerDelegate = self
+                filterVC.imageFilterDelegate = self
             }
         }
-    }
-}
-
-// MARK: - ProviderDelegate
-
-extension ImageListVC: ProviderDelegate {
-
-    func updateProviderIsOn(provider: Provider, isOn: Bool) {
-
-        for (index, providerItem) in self.providerList.enumerated() where providerItem.provider == provider {
-            self.providerList[index].isOn = isOn
-            self.imageTableView.reloadData()
-        }
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension ImageListVC: UITableViewDataSource {
-
-    // MARK: numberOfSections
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        self.sectionTitle.removeAll()
-        for provider in self.providerList where provider.isOn == true {
-            if let type = ApiRequestType(rawValue: provider.provider.name) {
-                self.sectionTitle.append(type)
-            }
-        }
-        return self.sectionTitle.count
-    }
-
-    // MARK: numberOfRowsInSection
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        self.concurrentQueue.sync {
-            if self.sectionTitle.count > 0 {
-                let providerSection = self.sectionTitle[section].rawValue
-                
-                if let providers = self.providerImageDict[providerSection] {
-                    return providers.count
-                }
-            }
-            return 0
-        }
-    }
-
-    // MARK: cellForRowAt
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.reuseId, for: indexPath) as? ImageTableViewCell else { fatalError("couldn't create ImageTableViewCell") }
-
-        let providerSection = self.sectionTitle[indexPath.section].rawValue
-        if let providers = self.providerImageDict[providerSection] {
-            
-            self.concurrentQueue.sync(flags: .barrier) {
-                switch self.sectionTitle[indexPath.section] {
-                case .splash:
-                    cell.setImage(with: providers[indexPath.row].url ?? "")
-                case .pexels:
-                    cell.setImage(with: providers[indexPath.row].src?.small ?? "")
-                case .pixaBay:
-                    cell.setImage(with: providers[indexPath.row].webformatURL ?? "")
-                }
-            }
-        }
-        return cell
-    }
-}
-
-// MARK: - UITableViewDelegate
-
-extension ImageListVC: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sectionTitle[section].rawValue
     }
 }
 
@@ -254,5 +182,92 @@ extension ImageListVC: UISearchBarDelegate {
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension ImageListVC: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        self.sectionTitle.removeAll()
+        for provider in self.providerList where provider.isOn == true {
+            
+            if let type = ApiRequestType(rawValue: provider.provider.name),
+               let count = providerImageDict[provider.provider.name]?.count {
+                if count > 0 { self.sectionTitle.append(type) }
+            }
+        }
+        return self.sectionTitle.count
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        self.concurrentQueue.sync {
+            if self.sectionTitle.count > 0 {
+                let providerSection = self.sectionTitle[section].rawValue
+                
+                if let providers = self.providerImageDict[providerSection] {
+                    return providers.count
+                }
+            }
+            return 0
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.reuseId,
+            for: indexPath) as? ImageTableViewCell else { fatalError("couldn't create ImageTableViewCell") }
+
+        let providerSection = self.sectionTitle[indexPath.section].rawValue
+        if let providers = self.providerImageDict[providerSection] {
+            
+            self.concurrentQueue.sync(flags: .barrier) {
+                switch self.sectionTitle[indexPath.section] {
+                case .splash:
+                    cell.setImage(with: providers[indexPath.row].url ?? "", filter: self.imageFilterOn)
+                case .pexels:
+                    cell.setImage(with: providers[indexPath.row].src?.small ?? "", filter: self.imageFilterOn)
+                case .pixaBay:
+                    cell.setImage(with: providers[indexPath.row].webformatURL ?? "", filter: self.imageFilterOn)
+                }
+            }
+        }
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension ImageListVC: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sectionTitle[section].rawValue
+    }
+}
+
+// MARK: - ProviderDelegate
+
+extension ImageListVC: ProviderDelegate {
+
+    func updateProviderIsOn(provider: Provider, isOn: Bool) {
+
+        for (index, providerItem) in self.providerList.enumerated() where providerItem.provider == provider {
+            self.providerList[index].isOn = isOn
+            self.imageTableView.reloadData()
+        }
+    }
+}
+
+// MARK: - ImageFilterDelegate
+
+extension ImageListVC: ImageFilterDelegate {
+    
+    func updateImageFilers(with filter: ImageFilterType) {
+        
+        self.imageFilterOn = filter
+        self.imageTableView.reloadData()
     }
 }

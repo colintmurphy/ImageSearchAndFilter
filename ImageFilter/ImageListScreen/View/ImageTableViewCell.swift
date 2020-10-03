@@ -22,10 +22,10 @@ class ImageTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func setImage(with imageUrl: String) {
+    func setImage(with imageUrl: String, filter: ImageFilterType) {
         
         self.cellImageView.image = nil
-        NetworkManager.shared.downloadImage(with: imageUrl) { (image) in
+        NetworkManager.shared.downloadFilterImage(with: imageUrl, filter: filter) { (image) in
             if let image = image {
                 DispatchQueue.main.async {
                     self.cellImageView.image = image

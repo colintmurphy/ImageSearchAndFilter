@@ -22,6 +22,10 @@
 		211954842527E4A40079FB79 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954832527E4A40079FB79 /* Protocols.swift */; };
 		211954872527E5010079FB79 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954862527E5010079FB79 /* ApiResponse.swift */; };
 		2119548A2527E5200079FB79 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954892527E5200079FB79 /* Constants.swift */; };
+		2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */; };
+		2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9422528D4770041E046 /* ImageFilterType.swift */; };
+		2193D9472528D48E0041E046 /* SettingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9462528D48E0041E046 /* SettingTypes.swift */; };
+		2193D94B2528E9DE0041E046 /* CIFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D94A2528E9DE0041E046 /* CIFilterType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,10 @@
 		211954832527E4A40079FB79 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		211954862527E5010079FB79 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		211954892527E5200079FB79 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterTableViewCell.swift; sourceTree = "<group>"; };
+		2193D9422528D4770041E046 /* ImageFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterType.swift; sourceTree = "<group>"; };
+		2193D9462528D48E0041E046 /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
+		2193D94A2528E9DE0041E046 /* CIFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIFilterType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +124,7 @@
 		21195469252787870079FB79 /* FilterScreen */ = {
 			isa = PBXGroup;
 			children = (
+				2193D9412528D4610041E046 /* Model */,
 				2119546D252787AF0079FB79 /* View */,
 				2119546C252787AA0079FB79 /* Controllers */,
 			);
@@ -150,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				21195462252787480079FB79 /* ProviderTableViewCell.swift */,
+				2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -158,8 +168,9 @@
 			isa = PBXGroup;
 			children = (
 				211954862527E5010079FB79 /* ApiResponse.swift */,
-				21195476252790A50079FB79 /* Provider.swift */,
+				2193D94A2528E9DE0041E046 /* CIFilterType.swift */,
 				2119547B2527CFA10079FB79 /* NetworkManager.swift */,
+				21195476252790A50079FB79 /* Provider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,6 +183,15 @@
 				2119547F2527E0C70079FB79 /* UIViewController+Ext.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		2193D9412528D4610041E046 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2193D9422528D4770041E046 /* ImageFilterType.swift */,
+				2193D9462528D48E0041E046 /* SettingTypes.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,11 +286,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				211954872527E5010079FB79 /* ApiResponse.swift in Sources */,
+				2193D94B2528E9DE0041E046 /* CIFilterType.swift in Sources */,
 				2119545C252787020079FB79 /* FilterVC.swift in Sources */,
+				2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */,
 				2119544A2527853C0079FB79 /* ImageListVC.swift in Sources */,
 				21195477252790A50079FB79 /* Provider.swift in Sources */,
 				211954462527853C0079FB79 /* AppDelegate.swift in Sources */,
 				2119547C2527CFA10079FB79 /* NetworkManager.swift in Sources */,
+				2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */,
+				2193D9472528D48E0041E046 /* SettingTypes.swift in Sources */,
 				211954842527E4A40079FB79 /* Protocols.swift in Sources */,
 				2119547225278EAA0079FB79 /* ImageTableViewCell.swift in Sources */,
 				21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */,
