@@ -8,16 +8,24 @@
 import UIKit
 
 class ProviderTableViewCell: UITableViewCell {
+    
+    // MARK: - @IBOutlets
 
     @IBOutlet private weak var providerLabel: UILabel!
     @IBOutlet private weak var providerSwitch: UISwitch!
+    
+    // MARK: - Variables
 
     static var reuseId = "ProviderTableViewCell"
     private var provider: Provider?
     
+    // MARK: - Delegates
+    
     weak var delegate: ProviderDelegate?
     weak var switchDelegate: SwitchDelegate?
 
+    // MARK: - Inits
+    
     override func awakeFromNib() {
 
         super.awakeFromNib()
@@ -27,6 +35,8 @@ class ProviderTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    // MARK: - Methods
 
     func set(provider: (provider: Provider, isOn: Bool)) {
 

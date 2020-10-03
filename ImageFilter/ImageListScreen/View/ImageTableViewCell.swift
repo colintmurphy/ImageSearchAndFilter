@@ -25,7 +25,6 @@ class ImageTableViewCell: UITableViewCell {
     func setImage(with imageUrl: String) {
         
         self.cellImageView.image = nil
-        
         NetworkManager.shared.downloadImage(with: imageUrl) { (image) in
             if let image = image {
                 DispatchQueue.main.async {

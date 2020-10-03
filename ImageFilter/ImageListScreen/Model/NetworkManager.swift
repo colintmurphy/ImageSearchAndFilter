@@ -25,8 +25,8 @@ class NetworkManager {
         guard var urlComponents = URLComponents(string: urlString) else { return }
         
         if let parameters = parameters {
-            
             var elements: [URLQueryItem] = []
+            
             for (key, value) in parameters {
                 elements.append(URLQueryItem(name: key, value: value))
             }
@@ -34,6 +34,7 @@ class NetworkManager {
         }
         
         guard let url = urlComponents.url else { return }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -42,7 +43,6 @@ class NetworkManager {
         }
         
         URLSession.shared.dataTask(with: request) { data, _, error in
-           
             if error != nil { print(error!) }
             guard let data = data else { return }
             

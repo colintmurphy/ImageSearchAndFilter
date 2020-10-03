@@ -23,12 +23,12 @@ class ImageListVC: UIViewController {
     
     var providerList: [(provider: Provider, isOn: Bool)] = []
     private var providerImageDict: [String: [ResponseImage]] = [:]
-    private var sectionTitle: [String] = []
+    private var sectionTitle: [ApiRequestType] = []
 
     // MARK: - View Life Cycles
 
     override func viewDidLoad() {
-
+        
         super.viewDidLoad()
         self.setup()
     }
@@ -38,11 +38,13 @@ class ImageListVC: UIViewController {
     private func updateParameter(with text: String, _ dict: [String: String]) -> [String: String] {
         
         var parameters = dict
+        
         if dict["query"] != nil {
             parameters["query"] = text
         } else if parameters["q"] != nil {
             parameters["q"] = text
         }
+        
         return parameters
     }
 
@@ -74,8 +76,11 @@ class ImageListVC: UIViewController {
         self.activityIndicator.isHidden = true
         self.imageTableView.reloadData()
     }
+    
+    // MARK: - Keyboard
 
     private func setupKeyboardHandlers() {
+        
         let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapDismiss)
     }
@@ -114,20 +119,24 @@ extension ImageListVC: ProviderDelegate {
 
 extension ImageListVC: UITableViewDataSource {
 
+    // MARK: numberOfSections
     func numberOfSections(in tableView: UITableView) -> Int {
         
         self.sectionTitle.removeAll()
         for provider in self.providerList where provider.isOn == true {
-            self.sectionTitle.append(provider.provider.name)
+            if let type = ApiRequestType(rawValue: provider.provider.name) {
+                self.sectionTitle.append(type)
+            }
         }
         return self.sectionTitle.count
     }
 
+    // MARK: numberOfRowsInSection
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         self.concurrentQueue.sync {
             if self.sectionTitle.count > 0 {
-                let providerSection = self.sectionTitle[section]
+                let providerSection = self.sectionTitle[section].rawValue
                 
                 if let providers = self.providerImageDict[providerSection] {
                     return providers.count
@@ -137,21 +146,23 @@ extension ImageListVC: UITableViewDataSource {
         }
     }
 
+    // MARK: cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.reuseId, for: indexPath) as? ImageTableViewCell else { fatalError("couldn't create ImageTableViewCell") }
 
-        let providerSection = self.sectionTitle[indexPath.section]
+        let providerSection = self.sectionTitle[indexPath.section].rawValue
         if let providers = self.providerImageDict[providerSection] {
             
-            #warning("Refactor with enum")
-            
-            if let imageUrl = providers[indexPath.row].src?.small {
-                self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
-            } else if let imageUrl = providers[indexPath.row].url {
-                self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
-            } else if let imageUrl = providers[indexPath.row].webformatURL {
-                self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
+            self.concurrentQueue.sync(flags: .barrier) {
+                switch self.sectionTitle[indexPath.section] {
+                case .splash:
+                    cell.setImage(with: providers[indexPath.row].url ?? "")
+                case .pexels:
+                    cell.setImage(with: providers[indexPath.row].src?.small ?? "")
+                case .pixaBay:
+                    cell.setImage(with: providers[indexPath.row].webformatURL ?? "")
+                }
             }
         }
         return cell
@@ -163,7 +174,7 @@ extension ImageListVC: UITableViewDataSource {
 extension ImageListVC: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sectionTitle[section]
+        return self.sectionTitle[section].rawValue
     }
 }
 
@@ -177,45 +188,58 @@ extension ImageListVC: UISearchBarDelegate {
         if text.count <= 5 { return }
         self.searchWorkItem?.cancel()
 
+        // MARK: LoaderUI DispatchWorkItem
         let uiLoaderWork = DispatchWorkItem {
-
             self.noImagesLabel.isHidden = true
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
         }
 
+        // MARK: Search DispatchWorkItem
         self.searchWorkItem = DispatchWorkItem {
-
             DispatchQueue.main.async(execute: uiLoaderWork)
             
             let providerGroup = DispatchGroup()
+            
             for provider in self.providerList where provider.isOn {
-
                 providerGroup.enter()
+                
                 DispatchQueue.global().async {
-
                     let parameters = self.updateParameter(with: text, provider.provider.parameters)
-                        
+                    
+                    // MARK: API Request
                     self.concurrentQueue.sync(flags: .barrier) {
                         NetworkManager.shared.request(urlString: provider.provider.url, headers: provider.provider.header, parameters: parameters) { (responseImageArray) in
                                 
                             if let images = responseImageArray {
                                 self.providerImageDict[provider.provider.name] = images
-                                providerGroup.leave()
-                            } else {
-                                providerGroup.leave()
                             }
+                            providerGroup.leave()
                         }
                     }
                 }
             }
 
+            // MARK: Update UI w/ Results
             providerGroup.notify(queue: DispatchQueue.main) {
 
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.isHidden = true
-                self.imageTableView.isHidden = false
-                self.imageTableView.reloadData()
+                
+                var badResults = true
+                for (_, value) in self.providerImageDict where !value.isEmpty {
+                    badResults = false
+                    break
+                }
+                
+                if !badResults {
+                    self.noImagesLabel.isHidden = true
+                    self.imageTableView.isHidden = false
+                    self.imageTableView.reloadData()
+                } else {
+                    self.noImagesLabel.isHidden = false
+                    self.imageTableView.isHidden = true
+                }
             }
         }
         

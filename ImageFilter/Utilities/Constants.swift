@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum ApiRequestType: String {
+    
+    case splash = "Splash"
+    case pexels = "Pexels"
+    case pixaBay = "Pixa Bay"
+}
+
 enum Splash {
     
     static let name = "Splash"
@@ -26,7 +33,5 @@ enum PixaBay {
     
     static let name = "Pixa Bay"
     static let url = "https://pixabay.com/api/?"
-    static let parameters = ["key": "18552487-1f1f788770c0bd9185181a8ff",
-                             "q": "",
-                             "image_type": "photo"]
+    static let parameters = ["key": "18552487-1f1f788770c0bd9185181a8ff", "q": "", "image_type": "photo"]
 }
