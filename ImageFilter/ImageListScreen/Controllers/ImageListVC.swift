@@ -21,9 +21,9 @@ class ImageListVC: UIViewController {
     private let concurrentQueue = DispatchQueue(label: "my.concurrent.queue", attributes: .concurrent)
     private var searchWorkItem: DispatchWorkItem?
     
+    var providerList: [(provider: Provider, isOn: Bool)] = []
     private var providerImageDict: [String: [ResponseImage]] = [:]
     private var sectionTitle: [String] = []
-    var providerList: [(provider: Provider, isOn: Bool)] = []
 
     // MARK: - View Life Cycles
 
@@ -76,7 +76,6 @@ class ImageListVC: UIViewController {
     }
 
     private func setupKeyboardHandlers() {
-
         let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapDismiss)
     }
@@ -91,7 +90,6 @@ class ImageListVC: UIViewController {
 
         if segue.identifier == "toFilter" {
             if let filterVC = segue.destination as? FilterVC {
-
                 filterVC.providerList = self.providerList
                 filterVC.delegate = self
             }
@@ -105,25 +103,9 @@ extension ImageListVC: ProviderDelegate {
 
     func updateProviderIsOn(provider: Provider, isOn: Bool) {
 
-        /*
-        var onCount = 0
-        for provider in self.providerList {
-            if provider.isOn {
-                onCount += 1
-            }
-        }
-        
-        if onCount < 2 {
-            return false
-        } else {
-         */
-        
         for (index, providerItem) in self.providerList.enumerated() where providerItem.provider == provider {
-            
             self.providerList[index].isOn = isOn
             self.imageTableView.reloadData()
-            
-            #warning("when to reload here???")
         }
     }
 }
@@ -134,22 +116,19 @@ extension ImageListVC: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        var count = 0
         self.sectionTitle.removeAll()
-        
         for provider in self.providerList where provider.isOn == true {
             self.sectionTitle.append(provider.provider.name)
-            count += 1
         }
-        return count
+        return self.sectionTitle.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         self.concurrentQueue.sync {
             if self.sectionTitle.count > 0 {
-                
                 let providerSection = self.sectionTitle[section]
+                
                 if let providers = self.providerImageDict[providerSection] {
                     return providers.count
                 }
@@ -165,14 +144,14 @@ extension ImageListVC: UITableViewDataSource {
         let providerSection = self.sectionTitle[indexPath.section]
         if let providers = self.providerImageDict[providerSection] {
             
+            #warning("Refactor with enum")
+            
             if let imageUrl = providers[indexPath.row].src?.small {
                 self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
             } else if let imageUrl = providers[indexPath.row].url {
                 self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
             } else if let imageUrl = providers[indexPath.row].webformatURL {
                 self.concurrentQueue.sync(flags: .barrier) { cell.setImage(with: imageUrl) }
-            } else {
-                print("BAD")
             }
         }
         return cell

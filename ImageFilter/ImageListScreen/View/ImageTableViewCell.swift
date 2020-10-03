@@ -24,8 +24,6 @@ class ImageTableViewCell: UITableViewCell {
 
     func setImage(with imageUrl: String) {
         
-        //self.cellImageView.image = NetworkManager.shared.downloadImage(with: imageUrl)
-        
         self.cellImageView.image = nil
         
         NetworkManager.shared.downloadImage(with: imageUrl) { (image) in
@@ -35,16 +33,6 @@ class ImageTableViewCell: UITableViewCell {
                 }
             }
         }
-
-        /*
-        guard let url = URL(string: imageUrl) else { return }
-
-        do {
-            let data = try Data(contentsOf: url)
-            self.cellImageView.image = UIImage(data: data)
-        } catch {
-            print(error)
-        }*/
     }
 
     private func setupUI() {

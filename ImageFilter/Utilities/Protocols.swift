@@ -10,3 +10,7 @@ import Foundation
 protocol ProviderDelegate: class {
     func updateProviderIsOn(provider: Provider, isOn: Bool)
 }
+
+protocol SwitchDelegate: class {
+    func shouldSwitchChange(provider: Provider, isOn: Bool) -> Bool
+}

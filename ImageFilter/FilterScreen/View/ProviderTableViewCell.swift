@@ -16,13 +16,12 @@ class ProviderTableViewCell: UITableViewCell {
     private var provider: Provider?
     
     weak var delegate: ProviderDelegate?
-    weak var oneDelegate: OneOnDelegate?
+    weak var switchDelegate: SwitchDelegate?
 
     override func awakeFromNib() {
 
         super.awakeFromNib()
         self.providerSwitch.addTarget(self, action: #selector(self.switched), for: .valueChanged)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.listen), name: NSNotification.Name.init("SwitchStatus"), object: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -35,28 +34,16 @@ class ProviderTableViewCell: UITableViewCell {
         self.providerLabel.text = provider.provider.name
         self.providerSwitch.isOn = provider.isOn
     }
-    
-    @objc func listen() {
-        
-    }
 
     @objc private func switched() {
         
-        guard let provider = self.provider else { return }
+        guard let provider = self.provider,
+            let allowSwitch = self.switchDelegate?.shouldSwitchChange(provider: provider, isOn: self.providerSwitch.isOn) else { return }
         
-        self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.listen), name: NSNotification.Name.init("SwithStatus"), object: nil)
-        
-        self.oneDelegate?.sendAlert()
-        
-        /*
-        if (self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)) != nil {
-            print()
-            
-            self.providerSwitch.isOn = true
-        }*/
-        
-        #warning("need to send alert if try to turn the last ON to OFF")
+        if allowSwitch {
+            self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)
+        } else {
+            self.providerSwitch.isOn = !self.providerSwitch.isOn
+        }
     }
 }

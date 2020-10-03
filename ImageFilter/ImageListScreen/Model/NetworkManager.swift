@@ -9,10 +9,16 @@ import UIKit
 
 class NetworkManager {
     
+    // MARK: - Variables
+    
     static let shared = NetworkManager()
     private let cache = NSCache<NSString, UIImage>()
     
+    // MARK: - Init
+    
     private init() { }
+    
+    // MARK: - Requests
     
     func request(urlString: String, headers: [String: String]?, parameters: [String: String]?, completed: @escaping ([ResponseImage]?) -> Void) {
         
