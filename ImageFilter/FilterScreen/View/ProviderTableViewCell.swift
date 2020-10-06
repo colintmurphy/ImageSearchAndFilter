@@ -38,10 +38,10 @@ class ProviderTableViewCell: UITableViewCell {
     
     // MARK: - Methods
 
-    func set(provider: (provider: Provider, isOn: Bool)) {
+    func set(provider: Provider) {
 
-        self.provider = provider.provider
-        self.providerLabel.text = provider.provider.name
+        self.provider = provider
+        self.providerLabel.text = provider.name
         self.providerSwitch.isOn = provider.isOn
     }
 
@@ -53,7 +53,7 @@ class ProviderTableViewCell: UITableViewCell {
         if allowSwitch {
             self.delegate?.updateProviderIsOn(provider: provider, isOn: self.providerSwitch.isOn)
         } else {
-            self.providerSwitch.isOn = !self.providerSwitch.isOn
+            self.providerSwitch.isOn.toggle()
         }
     }
 }

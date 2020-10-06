@@ -19,8 +19,8 @@ class NetworkManager {
     private init() { }
     
     // MARK: - Requests
-    
-    func request(urlString: String, headers: [String: String]?, parameters: [String: String]?, completed: @escaping ([ResponseImage]?) -> Void) {
+
+    func request(urlString: String, headers: [String: String]?, parameters: [String: String]?, completed: @escaping (Any?) -> Void) {
         
         guard var urlComponents = URLComponents(string: urlString) else { return }
         
@@ -43,42 +43,40 @@ class NetworkManager {
         }
         
         URLSession.shared.dataTask(with: request) { data, _, error in
-            if error != nil { print(error!) }
-            guard let data = data else { return }
-            
+            guard error == nil, let data = data else {
+                completed(nil)
+                return
+            }
             do {
-                let obj = try JSONDecoder().decode(ApiResponse.self, from: data)
-                
-                if let image = obj.hits {
-                    completed(image); return
-                } else if let image = obj.photos {
-                    completed(image); return
-                } else if let image = obj.images {
-                    completed(image); return
-                }
+                let dataDict = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                completed(dataDict)
             } catch {
                 print(error)
+                completed(nil)
             }
         }.resume()
     }
     
     func downloadFilterImage(with imageUrl: String, filter: ImageFilterType, completed: @escaping (UIImage?) -> Void) {
         
-        self.downloadImage(with: imageUrl) { (image) in
+        self.downloadImage(with: imageUrl) { image in
             if let originalCIImage = image {
                 var newImage = UIImage(ciImage: originalCIImage)
                 
                 switch filter {
                 case .original:
                     break
+                    
                 case .blackWhite:
                     if let ciImage = self.setFilter(originalCIImage, filterType: CIFilterType.blackWhite) {
                         newImage = UIImage(ciImage: ciImage)
                     }
+                    
                 case .sepia:
                     if let ciImage = self.setFilter(originalCIImage, filterType: CIFilterType.sepia) {
                         newImage = UIImage(ciImage: ciImage)
                     }
+                    
                 case .bloom:
                     if let ciImage = self.setFilter(originalCIImage, filterType: CIFilterType.bloom),
                        let cgOutputImage = CIContext().createCGImage(ciImage, from: originalCIImage.extent) {
@@ -126,6 +124,7 @@ class NetworkManager {
         case .blackWhite:
             filter?.setValue(0.0, forKey: kCIInputSaturationKey)
             filter?.setValue(0.9, forKey: kCIInputContrastKey)
+            
         case .sepia, .bloom:
             filter?.setValue(1.0, forKey: kCIInputIntensityKey)
         }

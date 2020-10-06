@@ -10,6 +10,7 @@ import Foundation
 struct Provider: Hashable {
 
     var name: String
+    var isOn: Bool
     var url: String
     var parameters: [String: String]
     var header: [String: String]?

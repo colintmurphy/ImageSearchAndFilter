@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4GU-Oa-iUJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -11,7 +12,7 @@
         <!--Search for Images-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ImageListVC" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ImageListViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,20 +33,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7T-LR-zkO">
-                                                    <rect key="frame" x="112.5" y="19" width="189" height="142"/>
+                                                    <rect key="frame" x="60" y="19" width="294" height="142"/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="125" id="7qM-Ny-q0v"/>
-                                                        <constraint firstAttribute="width" secondItem="g7T-LR-zkO" secondAttribute="height" multiplier="4:3" id="BgF-R5-EGt"/>
+                                                        <constraint firstAttribute="height" constant="150" id="7qM-Ny-q0v"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="g7T-LR-zkO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a9k-RP-Jg6" secondAttribute="leadingMargin" constant="8" id="TUM-Ra-Axr"/>
+                                                <constraint firstItem="g7T-LR-zkO" firstAttribute="leading" secondItem="a9k-RP-Jg6" secondAttribute="leadingMargin" constant="40" id="TUM-Ra-Axr"/>
                                                 <constraint firstItem="g7T-LR-zkO" firstAttribute="top" secondItem="a9k-RP-Jg6" secondAttribute="topMargin" constant="8" id="hIx-k0-4Gf"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="g7T-LR-zkO" secondAttribute="bottom" constant="8" id="iH6-MU-V9H"/>
                                                 <constraint firstItem="g7T-LR-zkO" firstAttribute="centerX" secondItem="a9k-RP-Jg6" secondAttribute="centerX" id="j1k-pS-weT"/>
-                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="g7T-LR-zkO" secondAttribute="trailing" constant="8" id="oSh-ZQ-uzR"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="g7T-LR-zkO" secondAttribute="trailing" constant="40" id="oSh-ZQ-uzR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -105,7 +105,7 @@
         <!--Settings-->
         <scene sceneID="79n-vS-evg">
             <objects>
-                <viewController id="HH5-bR-VzS" customClass="FilterVC" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HH5-bR-VzS" customClass="FilterViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fP1-LI-n22">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,20 +115,20 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProviderTableViewCell" id="5Nr-Ky-qjj" customClass="ProviderTableViewCell" customModule="ImageFilter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="51.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Nr-Ky-qjj" id="Unp-WR-6Yt">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me2-Qu-8km">
-                                                    <rect key="frame" x="28" y="15" width="301" height="21.5"/>
+                                                    <rect key="frame" x="28" y="15" width="301" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UTJ-Tc-JUA">
-                                                    <rect key="frame" x="337" y="10.5" width="51" height="31"/>
+                                                    <rect key="frame" x="337" y="10" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -146,14 +146,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageFilterTableViewCell" id="rNC-nQ-RBq" customClass="ImageFilterTableViewCell" customModule="ImageFilter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="79.5" width="414" height="51.5"/>
+                                        <rect key="frame" x="0.0" y="79" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rNC-nQ-RBq" id="xol-rU-iRF">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLr-YJ-U8g">
-                                                    <rect key="frame" x="28" y="15" width="358" height="21.5"/>
+                                                    <rect key="frame" x="28" y="15" width="358" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

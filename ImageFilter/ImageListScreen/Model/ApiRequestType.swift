@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  ApiRequestType.swift
 //  ImageFilter
 //
 //  Created by Colin Murphy on 10/2/20.

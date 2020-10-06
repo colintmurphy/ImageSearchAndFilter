@@ -21,11 +21,16 @@ class ImageTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    override func prepareForReuse() {
+        
+        super.prepareForReuse()
+        self.cellImageView.image = nil
+    }
 
     func setImage(with imageUrl: String, filter: ImageFilterType) {
         
-        self.cellImageView.image = nil
-        NetworkManager.shared.downloadFilterImage(with: imageUrl, filter: filter) { (image) in
+        NetworkManager.shared.downloadFilterImage(with: imageUrl, filter: filter) { image in
             if let image = image {
                 DispatchQueue.main.async {
                     self.cellImageView.image = image

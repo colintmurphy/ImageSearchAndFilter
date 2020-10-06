@@ -1,5 +1,5 @@
 //
-//  FilterVC.swift
+//  FilterViewController.swift
 //  ImageFilter
 //
 //  Created by Colin Murphy on 10/2/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FilterVC: UIViewController {
+class FilterViewController: UIViewController {
 
     // MARK: - IBOutlets
 
@@ -15,7 +15,7 @@ class FilterVC: UIViewController {
 
     // MARK: - Variables
     
-    var providerList: [(provider: Provider, isOn: Bool)]?
+    var providerList: [Provider]?
     var imageFilterOn: ImageFilterType?
     private var numberOfProvidersOn: Int?
     private var imageFilterTypes: [ImageFilterType] = [.original, .blackWhite, .sepia, .bloom]
@@ -50,7 +50,7 @@ class FilterVC: UIViewController {
 
 // MARK: - UITableViewDataSource
 
-extension FilterVC: UITableViewDataSource {
+extension FilterViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return SettingsType.count
@@ -58,11 +58,13 @@ extension FilterVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch SettingsType.init(rawValue: section) {
+        switch SettingsType(rawValue: section) {
         case .provider:
             return self.providerList?.count ?? 0
+            
         case .filter:
             return self.imageFilterTypes.count
+            
         case .none:
             return 0
         }
@@ -70,11 +72,13 @@ extension FilterVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        switch SettingsType.init(rawValue: section) {
+        switch SettingsType(rawValue: section) {
         case .provider:
             return "Providers"
+            
         case .filter:
             return "Filters"
+            
         case .none:
             return ""
         }
@@ -82,11 +86,11 @@ extension FilterVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch SettingsType.init(rawValue: indexPath.section) {
+        switch SettingsType(rawValue: indexPath.section) {
         case .provider:
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ProviderTableViewCell.reuseId,
-                for: indexPath) as? ProviderTableViewCell else { fatalError("couldn't create ProviderTableViewCell") }
+                                                           for: indexPath) as? ProviderTableViewCell else { fatalError("couldn't create ProviderTableViewCell") }
 
             if let providerItem = self.providerList?[indexPath.row] {
                 cell.delegate = self.providerDelegate
@@ -99,7 +103,7 @@ extension FilterVC: UITableViewDataSource {
         case .filter:
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageFilterTableViewCell.reuseId,
-                for: indexPath) as? ImageFilterTableViewCell else { fatalError("couldn't create ImageFilterTableViewCell") }
+                                                           for: indexPath) as? ImageFilterTableViewCell else { fatalError("couldn't create ImageFilterTableViewCell") }
             
             cell.set(name: self.imageFilterTypes[indexPath.row].rawValue)
             cell.selectionStyle = .default
@@ -119,13 +123,14 @@ extension FilterVC: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension FilterVC: UITableViewDelegate {
+extension FilterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch SettingsType.init(rawValue: indexPath.section) {
+        switch SettingsType(rawValue: indexPath.section) {
         case .provider:
             return
+            
         case .filter:
             self.imageFilterOn = self.imageFilterTypes[indexPath.row]
             guard let filter = self.imageFilterOn else { return }
@@ -142,7 +147,7 @@ extension FilterVC: UITableViewDelegate {
 
 // MARK: - SwitchDelegate
 
-extension FilterVC: SwitchDelegate {
+extension FilterViewController: SwitchDelegate {
     
     func shouldSwitchChange(provider: Provider, isOn: Bool) -> Bool {
         
@@ -156,7 +161,7 @@ extension FilterVC: SwitchDelegate {
             return false
         }
         
-        for (index, providerItem) in providerList.enumerated() where providerItem.provider == provider {
+        for (index, providerItem) in providerList.enumerated() where providerItem == provider {
             self.providerList?[index].isOn = isOn
         }
         return true

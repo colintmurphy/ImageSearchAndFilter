@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  MyDelegates.swift
 //  ImageFilter
 //
 //  Created by Colin Murphy on 10/2/20.
@@ -7,14 +7,16 @@
 
 import Foundation
 
-protocol ProviderDelegate: class {
+enum MyDelegates { }
+
+protocol ProviderDelegate: AnyObject {
     func updateProviderIsOn(provider: Provider, isOn: Bool)
 }
 
-protocol SwitchDelegate: class {
+protocol SwitchDelegate: AnyObject {
     func shouldSwitchChange(provider: Provider, isOn: Bool) -> Bool
 }
 
-protocol ImageFilterDelegate: class {
+protocol ImageFilterDelegate: AnyObject {
     func updateImageFilers(with filter: ImageFilterType)
 }
