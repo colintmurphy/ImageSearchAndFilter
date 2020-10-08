@@ -50,6 +50,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellImageView" destination="g7T-LR-zkO" id="Xpr-OR-mbz"/>
+                                            <segue destination="YKe-Ja-KFn" kind="show" identifier="toFilter" id="Boy-EL-FCW"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -87,7 +88,7 @@
                     <navigationItem key="navigationItem" title="Search for Images" id="Zfi-Nj-9Eg">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="IRZ-VS-IE1">
                             <connections>
-                                <segue destination="HH5-bR-VzS" kind="show" identifier="toFilter" id="R9y-vb-E2a"/>
+                                <segue destination="HH5-bR-VzS" kind="show" identifier="toSettings" id="R9y-vb-E2a"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -96,6 +97,7 @@
                         <outlet property="imageTableView" destination="rXr-gP-3Ea" id="YUK-La-jG6"/>
                         <outlet property="noImagesLabel" destination="eYt-2Y-eMf" id="V7c-za-hWc"/>
                         <outlet property="searchBar" destination="hdh-Aj-upf" id="euO-AU-YcT"/>
+                        <outlet property="settingsButton" destination="IRZ-VS-IE1" id="JPD-Ty-fdb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -105,7 +107,7 @@
         <!--Settings-->
         <scene sceneID="79n-vS-evg">
             <objects>
-                <viewController id="HH5-bR-VzS" customClass="FilterViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HH5-bR-VzS" customClass="SettingsViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fP1-LI-n22">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,20 +117,20 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProviderTableViewCell" id="5Nr-Ky-qjj" customClass="ProviderTableViewCell" customModule="ImageFilter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="51.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Nr-Ky-qjj" id="Unp-WR-6Yt">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me2-Qu-8km">
-                                                    <rect key="frame" x="28" y="15" width="301" height="21"/>
+                                                    <rect key="frame" x="28" y="15" width="301" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UTJ-Tc-JUA">
-                                                    <rect key="frame" x="337" y="10" width="51" height="31"/>
+                                                    <rect key="frame" x="337" y="10.5" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -143,31 +145,6 @@
                                         <connections>
                                             <outlet property="providerLabel" destination="Me2-Qu-8km" id="Fam-iR-5ym"/>
                                             <outlet property="providerSwitch" destination="UTJ-Tc-JUA" id="3xT-TY-E94"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageFilterTableViewCell" id="rNC-nQ-RBq" customClass="ImageFilterTableViewCell" customModule="ImageFilter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="79" width="414" height="51"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rNC-nQ-RBq" id="xol-rU-iRF">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLr-YJ-U8g">
-                                                    <rect key="frame" x="28" y="15" width="358" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="oLr-YJ-U8g" firstAttribute="top" secondItem="xol-rU-iRF" secondAttribute="topMargin" constant="4" id="9bJ-Q6-zp0"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="oLr-YJ-U8g" secondAttribute="trailing" constant="8" id="fLH-hm-KOw"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="oLr-YJ-U8g" secondAttribute="bottom" constant="4" id="gBP-Ag-yMX"/>
-                                                <constraint firstItem="oLr-YJ-U8g" firstAttribute="leading" secondItem="xol-rU-iRF" secondAttribute="leadingMargin" constant="8" id="gVY-aD-OpM"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="filterNameLabel" destination="oLr-YJ-U8g" id="Mvl-qO-rk5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -194,6 +171,68 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="51T-uJ-GbV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1801" y="119"/>
+        </scene>
+        <!--Filter-->
+        <scene sceneID="fbn-Eg-0Qp">
+            <objects>
+                <viewController id="YKe-Ja-KFn" customClass="FilterViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="14a-K4-8wX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vAg-6H-M8p">
+                                <rect key="frame" x="0.0" y="140" width="414" height="722"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageFilterTableViewCell" id="rNC-nQ-RBq" customClass="ImageFilterTableViewCell" customModule="ImageFilter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="51.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rNC-nQ-RBq" id="xol-rU-iRF">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLr-YJ-U8g">
+                                                    <rect key="frame" x="28" y="15" width="358" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="oLr-YJ-U8g" firstAttribute="top" secondItem="xol-rU-iRF" secondAttribute="topMargin" constant="4" id="9bJ-Q6-zp0"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="oLr-YJ-U8g" secondAttribute="trailing" constant="8" id="fLH-hm-KOw"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="oLr-YJ-U8g" secondAttribute="bottom" constant="4" id="gBP-Ag-yMX"/>
+                                                <constraint firstItem="oLr-YJ-U8g" firstAttribute="leading" secondItem="xol-rU-iRF" secondAttribute="leadingMargin" constant="8" id="gVY-aD-OpM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="filterNameLabel" destination="oLr-YJ-U8g" id="Mvl-qO-rk5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="YKe-Ja-KFn" id="jU0-SD-d98"/>
+                                    <outlet property="delegate" destination="YKe-Ja-KFn" id="SV1-JT-CE1"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gfb-He-abs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gfb-He-abs" firstAttribute="trailing" secondItem="vAg-6H-M8p" secondAttribute="trailing" id="2Pz-bd-7Ki"/>
+                            <constraint firstItem="vAg-6H-M8p" firstAttribute="leading" secondItem="gfb-He-abs" secondAttribute="leading" id="Ccy-hI-51R"/>
+                            <constraint firstItem="vAg-6H-M8p" firstAttribute="top" secondItem="gfb-He-abs" secondAttribute="top" id="dXK-JO-j6Z"/>
+                            <constraint firstItem="gfb-He-abs" firstAttribute="bottom" secondItem="vAg-6H-M8p" secondAttribute="bottom" id="t98-GO-hXc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Filter" id="90V-Ah-3zP"/>
+                    <connections>
+                        <outlet property="filterTableView" destination="vAg-6H-M8p" id="QdC-m0-RZ8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ki5-3y-7Yv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="970" y="837"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D4f-jL-pgR">

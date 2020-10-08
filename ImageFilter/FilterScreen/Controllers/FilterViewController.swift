@@ -2,49 +2,36 @@
 //  FilterViewController.swift
 //  ImageFilter
 //
-//  Created by Colin Murphy on 10/2/20.
+//  Created by Colin Murphy on 10/6/20.
 //
 
 import UIKit
 
 class FilterViewController: UIViewController {
-
+    
     // MARK: - IBOutlets
-
-    @IBOutlet private weak var settingsTableView: UITableView!
-
+    
+    @IBOutlet private weak var filterTableView: UITableView!
+    
     // MARK: - Variables
     
-    var providerList: [Provider]?
-    var imageFilterOn: ImageFilterType?
-    private var numberOfProvidersOn: Int?
-    private var imageFilterTypes: [ImageFilterType] = [.original, .blackWhite, .sepia, .bloom]
-    private var settingsTypes: [SettingsType] = []
-    
-    // MARK: - Delegates
-    
-    weak var providerDelegate: ProviderDelegate?
+    var image: ImageProtocol?
+    var imageIndexPath: IndexPath?
     weak var imageFilterDelegate: ImageFilterDelegate?
-
+    private var imageFilterTypes: [ImageFilterType] = [.original, .blackWhite, .sepia, .bloom]
+    
     // MARK: - View Life Cycles
 
     override func viewDidLoad() {
-
+        
         super.viewDidLoad()
         self.setupTableView()
-        self.setupData()
     }
-
+    
     // MARK: - Setup
 
     private func setupTableView() {
-        self.settingsTableView.tableFooterView = UIView()
-    }
-    
-    private func setupData() {
-        
-        self.settingsTypes = Array(repeating: SettingsType.provider, count: self.providerList?.count ?? 0)
-            + Array(repeating: SettingsType.filter, count: self.imageFilterTypes.count)
+        self.filterTableView.tableFooterView = UIView()
     }
 }
 
@@ -52,72 +39,23 @@ class FilterViewController: UIViewController {
 
 extension FilterViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return SettingsType.count
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        switch SettingsType(rawValue: section) {
-        case .provider:
-            return self.providerList?.count ?? 0
-            
-        case .filter:
-            return self.imageFilterTypes.count
-            
-        case .none:
-            return 0
-        }
+        return self.imageFilterTypes.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        switch SettingsType(rawValue: section) {
-        case .provider:
-            return "Providers"
-            
-        case .filter:
-            return "Filters"
-            
-        case .none:
-            return ""
-        }
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch SettingsType(rawValue: indexPath.section) {
-        case .provider:
-            
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ProviderTableViewCell.reuseId,
-                                                           for: indexPath) as? ProviderTableViewCell else { fatalError("couldn't create ProviderTableViewCell") }
-
-            if let providerItem = self.providerList?[indexPath.row] {
-                cell.delegate = self.providerDelegate
-                cell.switchDelegate = self
-                cell.set(provider: providerItem)
-            }
-            cell.selectionStyle = .none
-            return cell
-            
-        case .filter:
-            
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageFilterTableViewCell.reuseId,
-                                                           for: indexPath) as? ImageFilterTableViewCell else { fatalError("couldn't create ImageFilterTableViewCell") }
-            
-            cell.set(name: self.imageFilterTypes[indexPath.row].rawValue)
-            cell.selectionStyle = .default
-            cell.accessoryType = .none
-            
-            if self.imageFilterOn != nil &&
-                self.imageFilterOn == self.imageFilterTypes[indexPath.row] {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageFilterTableViewCell.reuseId,
+                                                       for: indexPath) as? ImageFilterTableViewCell else { fatalError("couldn't create ImageFilterTableViewCell") }
+        
+        cell.set(name: self.imageFilterTypes[indexPath.row].rawValue)
+        
+        if let imageFilter = self.image?.filter {
+            if imageFilter == self.imageFilterTypes[indexPath.row] {
                 cell.accessoryType = .checkmark
             }
-            return cell
-            
-        case .none:
-            fatalError("couldn't create cell with SettingsType")
         }
+        return cell
     }
 }
 
@@ -127,43 +65,13 @@ extension FilterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch SettingsType(rawValue: indexPath.section) {
-        case .provider:
-            return
+        image?.filter = self.imageFilterTypes[indexPath.row]
+        
+        guard let image = self.image,
+              let imageIndexPath = self.imageIndexPath else { return }
             
-        case .filter:
-            self.imageFilterOn = self.imageFilterTypes[indexPath.row]
-            guard let filter = self.imageFilterOn else { return }
-            self.imageFilterDelegate?.updateImageFilers(with: filter)
-            
-            tableView.deselectRow(at: indexPath, animated: true)
-            self.settingsTableView.reloadData()
-            
-        case .none:
-            return
-        }
-    }
-}
-
-// MARK: - SwitchDelegate
-
-extension FilterViewController: SwitchDelegate {
-    
-    func shouldSwitchChange(provider: Provider, isOn: Bool) -> Bool {
-        
-        guard let providerList = self.providerList else { return true }
-        
-        var count = 0
-        for provider in providerList where provider.isOn { count += 1 }
-        
-        if !isOn && count < 2 {
-            self.showAlert(title: "Sorry", message: "At least one filter must on.")
-            return false
-        }
-        
-        for (index, providerItem) in providerList.enumerated() where providerItem == provider {
-            self.providerList?[index].isOn = isOn
-        }
-        return true
+        self.imageFilterDelegate?.updateImageFilter(of: image, at: imageIndexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.filterTableView.reloadData()
     }
 }

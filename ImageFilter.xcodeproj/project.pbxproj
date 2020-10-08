@@ -13,7 +13,7 @@
 		2119544D2527853C0079FB79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2119544B2527853C0079FB79 /* Main.storyboard */; };
 		2119544F2527853D0079FB79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2119544E2527853D0079FB79 /* Assets.xcassets */; };
 		211954522527853D0079FB79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 211954502527853D0079FB79 /* LaunchScreen.storyboard */; };
-		2119545C252787020079FB79 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119545B252787020079FB79 /* FilterViewController.swift */; };
+		2119545C252787020079FB79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119545B252787020079FB79 /* SettingsViewController.swift */; };
 		21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21195462252787480079FB79 /* ProviderTableViewCell.swift */; };
 		2119547225278EAA0079FB79 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119547125278EAA0079FB79 /* ImageTableViewCell.swift */; };
 		21195477252790A50079FB79 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21195476252790A50079FB79 /* Provider.swift */; };
@@ -22,7 +22,8 @@
 		211954842527E4A40079FB79 /* MyDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954832527E4A40079FB79 /* MyDelegates.swift */; };
 		211954872527E5010079FB79 /* Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954862527E5010079FB79 /* Sections.swift */; };
 		2119548A2527E5200079FB79 /* ApiRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954892527E5200079FB79 /* ApiRequestType.swift */; };
-		216C8297252C0EAB002FBCF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 216C8296252C0EAB002FBCF6 /* .swiftlint.yml */; };
+		216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C82B0252CBC96002FBCF6 /* FilterViewController.swift */; };
+		21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */; };
 		2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */; };
 		2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9422528D4770041E046 /* ImageFilterType.swift */; };
 		2193D9472528D48E0041E046 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9462528D48E0041E046 /* SettingsType.swift */; };
@@ -38,7 +39,7 @@
 		2119544E2527853D0079FB79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		211954512527853D0079FB79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		211954532527853D0079FB79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2119545B252787020079FB79 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		2119545B252787020079FB79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		21195462252787480079FB79 /* ProviderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderTableViewCell.swift; sourceTree = "<group>"; };
 		2119547125278EAA0079FB79 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		21195476252790A50079FB79 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
@@ -47,7 +48,8 @@
 		211954832527E4A40079FB79 /* MyDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDelegates.swift; sourceTree = "<group>"; };
 		211954862527E5010079FB79 /* Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sections.swift; sourceTree = "<group>"; };
 		211954892527E5200079FB79 /* ApiRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestType.swift; sourceTree = "<group>"; };
-		216C8296252C0EAB002FBCF6 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		216C82B0252CBC96002FBCF6 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProtocol.swift; sourceTree = "<group>"; };
 		2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterTableViewCell.swift; sourceTree = "<group>"; };
 		2193D9422528D4770041E046 /* ImageFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterType.swift; sourceTree = "<group>"; };
 		2193D9462528D48E0041E046 /* SettingsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsType.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				211954652527874E0079FB79 /* Support */,
 				2119547E2527E0B70079FB79 /* Utilities */,
 				211954682527877E0079FB79 /* ImageListScreen */,
+				216C82AA252CBC04002FBCF6 /* SettingsScreen */,
 				21195469252787870079FB79 /* FilterScreen */,
 				21195467252787770079FB79 /* Storyboard */,
 			);
@@ -99,7 +102,6 @@
 				211954502527853D0079FB79 /* LaunchScreen.storyboard */,
 				2119544E2527853D0079FB79 /* Assets.xcassets */,
 				211954532527853D0079FB79 /* Info.plist */,
-				216C8296252C0EAB002FBCF6 /* .swiftlint.yml */,
 				211954452527853C0079FB79 /* AppDelegate.swift */,
 				211954472527853C0079FB79 /* SceneDelegate.swift */,
 			);
@@ -127,9 +129,9 @@
 		21195469252787870079FB79 /* FilterScreen */ = {
 			isa = PBXGroup;
 			children = (
-				2193D9412528D4610041E046 /* Model */,
-				2119546D252787AF0079FB79 /* View */,
-				2119546C252787AA0079FB79 /* Controllers */,
+				216C82AC252CBC42002FBCF6 /* Model */,
+				216C82AD252CBC4D002FBCF6 /* View */,
+				216C82AB252CBC1C002FBCF6 /* Controllers */,
 			);
 			path = FilterScreen;
 			sourceTree = "<group>";
@@ -153,7 +155,7 @@
 		2119546C252787AA0079FB79 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2119545B252787020079FB79 /* FilterViewController.swift */,
+				2119545B252787020079FB79 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -162,7 +164,6 @@
 			isa = PBXGroup;
 			children = (
 				21195462252787480079FB79 /* ProviderTableViewCell.swift */,
-				2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -170,11 +171,9 @@
 		21195474252790900079FB79 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				211954892527E5200079FB79 /* ApiRequestType.swift */,
 				2193D94A2528E9DE0041E046 /* CIFilterType.swift */,
-				2119547B2527CFA10079FB79 /* NetworkManager.swift */,
-				21195476252790A50079FB79 /* Provider.swift */,
-				211954862527E5010079FB79 /* Sections.swift */,
+				21704CCB252E902100FBBBB2 /* Network */,
+				21704CCF252E98F300FBBBB2 /* Data */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -188,10 +187,62 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		2193D9412528D4610041E046 /* Model */ = {
+		216C82AA252CBC04002FBCF6 /* SettingsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				2193D9412528D4610041E046 /* Model */,
+				2119546D252787AF0079FB79 /* View */,
+				2119546C252787AA0079FB79 /* Controllers */,
+			);
+			path = SettingsScreen;
+			sourceTree = "<group>";
+		};
+		216C82AB252CBC1C002FBCF6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				216C82B0252CBC96002FBCF6 /* FilterViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		216C82AC252CBC42002FBCF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				2193D9422528D4770041E046 /* ImageFilterType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		216C82AD252CBC4D002FBCF6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		21704CCB252E902100FBBBB2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				211954892527E5200079FB79 /* ApiRequestType.swift */,
+				2119547B2527CFA10079FB79 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		21704CCF252E98F300FBBBB2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */,
+				21195476252790A50079FB79 /* Provider.swift */,
+				211954862527E5010079FB79 /* Sections.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		2193D9412528D4610041E046 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				2193D9462528D48E0041E046 /* SettingsType.swift */,
 			);
 			path = Model;
@@ -255,7 +306,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				216C8297252C0EAB002FBCF6 /* .swiftlint.yml in Resources */,
 				211954522527853D0079FB79 /* LaunchScreen.storyboard in Resources */,
 				2119544F2527853D0079FB79 /* Assets.xcassets in Resources */,
 				2119544D2527853C0079FB79 /* Main.storyboard in Resources */,
@@ -291,10 +341,12 @@
 			files = (
 				211954872527E5010079FB79 /* Sections.swift in Sources */,
 				2193D94B2528E9DE0041E046 /* CIFilterType.swift in Sources */,
-				2119545C252787020079FB79 /* FilterViewController.swift in Sources */,
+				2119545C252787020079FB79 /* SettingsViewController.swift in Sources */,
+				216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */,
 				2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */,
 				2119544A2527853C0079FB79 /* ImageListViewController.swift in Sources */,
 				21195477252790A50079FB79 /* Provider.swift in Sources */,
+				21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */,
 				211954462527853C0079FB79 /* AppDelegate.swift in Sources */,
 				2119547C2527CFA10079FB79 /* NetworkManager.swift in Sources */,
 				2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */,

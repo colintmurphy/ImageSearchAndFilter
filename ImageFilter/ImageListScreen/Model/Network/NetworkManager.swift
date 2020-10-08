@@ -98,14 +98,14 @@ class NetworkManager {
         
         let cacheKey = NSString(string: imageUrl)
         
-        if let image = cache.object(forKey: cacheKey) {
-            completed(image)
-            return
-        }
-        
         DispatchQueue.global().async {
-            if let url = URL(string: imageUrl),
+            if let image = self.cache.object(forKey: cacheKey) {
+                completed(image)
+                return
+            } else if let url = URL(string: imageUrl),
                 let image = CIImage(contentsOf: url) {
+                
+                self.cache.setObject(image, forKey: cacheKey)
                 completed(image)
                 return
             } else {

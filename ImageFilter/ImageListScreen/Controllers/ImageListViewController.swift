@@ -19,16 +19,25 @@ class ImageListViewController: UIViewController {
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var noImagesLabel: UILabel!
-
+    @IBOutlet private weak var settingsButton: UIBarButtonItem!
+    
     // MARK: - Variables
     
-    var imageFilterOn: ImageFilterType = .original
+    private lazy var providers: [Provider] = {
+        return [
+            Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters),
+            Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, header: Pexels.headers),
+            Provider(name: ApiRequestType.pixaBay.rawValue, isOn: true, url: PixaBay.url, parameters: PixaBay.parameters)
+        ]
+    }()
+    
     private var _sectionDataSource: [Sections] = []
     private var sectionDataSource: [Sections] {
         concurrentQueue.sync {
             return _sectionDataSource
         }
     }
+    
     private var onSections: [Sections] {
         return self.sectionDataSource.filter { $0.provider.isOn }
     }
@@ -60,34 +69,42 @@ class ImageListViewController: UIViewController {
         return parameters
     }
     
-    private func updatedSection(_ provider: Provider, _ dictionary: Any?) -> [ImageProtocol] {
+    private func createSection(_ provider: Provider, _ dictionary: Any?) {
         
-        guard let dictionary = dictionary as? [String: Any] else { return [] }
+        guard let dictionary = dictionary as? [String: Any] else { return }
         var newSection: [ImageProtocol] = []
         
         switch provider.name {
         case Splash.name:
-            guard let arrayItems = dictionary["images"] as? [[String: Any]], !arrayItems.isEmpty else { return [] }
+            guard let arrayItems = dictionary["images"] as? [[String: Any]], !arrayItems.isEmpty else { return }
             arrayItems.forEach { dictionary in
                 newSection.append(SplashImageInfo(dict: dictionary))
             }
+            let splash = Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters)
+            let splashSection = Sections(provider: splash, dataSource: newSection)
+            self._sectionDataSource.append(splashSection)
             
         case Pexels.name:
-            guard let arrayItems = dictionary["photos"] as? [[String: Any]], !arrayItems.isEmpty else { return [] }
+            guard let arrayItems = dictionary["photos"] as? [[String: Any]], !arrayItems.isEmpty else { return }
             arrayItems.forEach { dictionary in
                 newSection.append(PexelsImageInfo(dict: dictionary))
             }
+            let pexels = Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, header: Pexels.headers)
+            let pexelsSection = Sections(provider: pexels, dataSource: newSection)
+            self._sectionDataSource.append(pexelsSection)
             
         case PixaBay.name:
-            guard let arrayItems = dictionary["hits"] as? [[String: Any]], !arrayItems.isEmpty else { return [] }
+            guard let arrayItems = dictionary["hits"] as? [[String: Any]], !arrayItems.isEmpty else { return }
             arrayItems.forEach { dictionary in
                 newSection.append(PixabayImageInfo(dict: dictionary))
             }
+            let pixaBay = Provider(name: ApiRequestType.pixaBay.rawValue, isOn: true, url: PixaBay.url, parameters: PixaBay.parameters)
+            let pixaBaySection = Sections(provider: pixaBay, dataSource: newSection)
+            self._sectionDataSource.append(pixaBaySection)
             
         default:
             break
         }
-        return newSection
     }
 
     // MARK: - Setup
@@ -95,25 +112,13 @@ class ImageListViewController: UIViewController {
     private func setup() {
 
         self.searchBar.delegate = self
-        self.createProviders()
         self.setupTable()
         self.setupKeyboardHandlers()
     }
 
-    private func createProviders() {
-
-        let splash = Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters)
-        let pexels = Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, header: Pexels.headers)
-        let pixaBay = Provider(name: ApiRequestType.pixaBay.rawValue, isOn: true, url: PixaBay.url, parameters: PixaBay.parameters)
-        
-        let splashSection = Sections(provider: splash, dataSource: [])
-        let pixaBaySection = Sections(provider: pixaBay, dataSource: [])
-        let pexelSection = Sections(provider: pexels, dataSource: [])
-        self._sectionDataSource = [splashSection, pixaBaySection, pexelSection]
-    }
-
     private func setupTable() {
 
+        self.settingsButton.isEnabled = false
         self.imageTableView.isHidden = true
         self.noImagesLabel.isHidden = false
         self.activityIndicator.isHidden = true
@@ -123,9 +128,8 @@ class ImageListViewController: UIViewController {
     // MARK: - Keyboard
 
     private func setupKeyboardHandlers() {
-        
-        let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        self.view.addGestureRecognizer(tapDismiss)
+        //let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        //self.view.addGestureRecognizer(tapDismiss)
     }
 
     @objc private func dismissKeyboard() {
@@ -136,17 +140,26 @@ class ImageListViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        if segue.identifier == "toFilter" {
-            if let filterVC = segue.destination as? FilterViewController {
+        if segue.identifier == "toSettings" {
+            if let settingsVC = segue.destination as? SettingsViewController {
                 
                 var providers: [Provider] = []
                 for section in self.sectionDataSource {
                     providers.append(section.provider)
                 }
-                
-                filterVC.providerList = providers
-                filterVC.imageFilterOn = self.imageFilterOn
-                filterVC.providerDelegate = self
+                settingsVC.providerList = providers
+                settingsVC.providerDelegate = self
+            }
+        }
+        
+        if segue.identifier == "toFilter" {
+            if let filterVC = segue.destination as? FilterViewController,
+               let indexPath = self.imageTableView.indexPathForSelectedRow {
+                    
+                let section = self.sectionDataSource[indexPath.section]
+                let image = section.dataSource[indexPath.row]
+                filterVC.image = image
+                filterVC.imageIndexPath = indexPath
                 filterVC.imageFilterDelegate = self
             }
         }
@@ -165,9 +178,11 @@ extension ImageListViewController: UISearchBarDelegate {
 
         // MARK: LoaderUI DispatchWorkItem
         let uiLoaderWork = DispatchWorkItem {
+            
             self.noImagesLabel.isHidden = true
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
+            self._sectionDataSource.removeAll()
         }
 
         // MARK: Search DispatchWorkItem
@@ -176,20 +191,16 @@ extension ImageListViewController: UISearchBarDelegate {
             DispatchQueue.main.async(execute: uiLoaderWork)
             let providerGroup = DispatchGroup()
             
-            for (index, section) in self.sectionDataSource.enumerated() {
-                
-                let parameters = self.updateParameter(with: text, section.provider.parameters)
+            for provider in self.providers {
+                let parameters = self.updateParameter(with: text, provider.parameters)
                 providerGroup.enter()
                 
-                NetworkManager.shared.request(urlString: section.provider.url, headers: section.provider.header, parameters: parameters) { [section] dictionary in
-                    
-                    self.concurrentQueue.sync(flags: .barrier) {
-                        self._sectionDataSource[index].dataSource = self.updatedSection(section.provider, dictionary)
-                        providerGroup.leave()
-                    }
+                NetworkManager.shared.request(urlString: provider.url, headers: provider.header, parameters: parameters) { dictionary in
+                    self.createSection(provider, dictionary)
+                    providerGroup.leave()
                 }
             }
-
+            
             // MARK: Update UI w/ Results
             providerGroup.notify(queue: DispatchQueue.main) {
 
@@ -197,9 +208,11 @@ extension ImageListViewController: UISearchBarDelegate {
                 self.activityIndicator.isHidden = true
                 
                 if self.sectionDataSource.isEmpty {
+                    self.settingsButton.isEnabled = false
                     self.noImagesLabel.isHidden = false
                     self.imageTableView.isHidden = true
                 } else {
+                    self.settingsButton.isEnabled = true
                     self.noImagesLabel.isHidden = true
                     self.imageTableView.isHidden = false
                     self.imageTableView.reloadData()
@@ -208,7 +221,7 @@ extension ImageListViewController: UISearchBarDelegate {
         }
         
         if let work = self.searchWorkItem {
-            DispatchQueue.global().asyncAfter(deadline: .now() + 3, execute: work)
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: work)
         }
     }
 
@@ -238,7 +251,8 @@ extension ImageListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.reuseId,
                                                        for: indexPath) as? ImageTableViewCell else { fatalError("couldn't create ImageTableViewCell") }
         
-        cell.setImage(with: self.onSections[indexPath.section].dataSource[indexPath.row].imageUrl ?? "", filter: self.imageFilterOn)
+        let image = self.onSections[indexPath.section].dataSource[indexPath.row]
+        cell.setImage(with: image.imageUrl ?? "", filter: image.filter)
         return cell
     }
 }
@@ -247,10 +261,12 @@ extension ImageListViewController: UITableViewDataSource {
 
 extension ImageListViewController: UITableViewDelegate {
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let sectionsOn = self.sectionDataSource.filter { $0.provider.isOn }
-        return sectionsOn[section].provider.name
+        return self.onSections[section].provider.name
     }
 }
 
@@ -260,9 +276,8 @@ extension ImageListViewController: ProviderDelegate {
 
     func updateProviderIsOn(provider: Provider, isOn: Bool) {
         
-        for (index, section) in self.sectionDataSource.enumerated() where section.provider == provider {
-            self._sectionDataSource[index].provider.isOn = isOn
-        }
+        guard let index = self._sectionDataSource.firstIndex(where: { $0.provider == provider }) else { return }
+        self._sectionDataSource[index].provider.isOn = isOn
         self.imageTableView.reloadData()
     }
 }
@@ -271,9 +286,14 @@ extension ImageListViewController: ProviderDelegate {
 
 extension ImageListViewController: ImageFilterDelegate {
     
-    func updateImageFilers(with filter: ImageFilterType) {
+    func updateImageFilter(of image: ImageProtocol, at index: IndexPath) {
         
-        self.imageFilterOn = filter
-        self.imageTableView.reloadData()
+        let provider = self.onSections[index.section].provider
+        for (sectionIndex, section) in self._sectionDataSource.enumerated() where section.provider.name == provider.name {
+            self._sectionDataSource[sectionIndex].dataSource[index.row].filter = image.filter
+        }
+        //self._sectionDataSource[index.section].dataSource[index.row].filter = image.filter
+        self.imageTableView.reloadRows(at: [index], with: .automatic)
+        //self.imageTableView.reloadData()
     }
 }

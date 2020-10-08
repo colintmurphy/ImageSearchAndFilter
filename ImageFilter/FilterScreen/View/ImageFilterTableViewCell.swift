@@ -22,6 +22,8 @@ class ImageFilterTableViewCell: UITableViewCell {
     }
     
     func set(name: String) {
+        
         self.filterNameLabel.text = name
+        self.accessoryType = .none
     }
 }

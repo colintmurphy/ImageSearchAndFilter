@@ -18,5 +18,5 @@ protocol SwitchDelegate: AnyObject {
 }
 
 protocol ImageFilterDelegate: AnyObject {
-    func updateImageFilers(with filter: ImageFilterType)
+    func updateImageFilter(of image: ImageProtocol, at index: IndexPath)
 }
