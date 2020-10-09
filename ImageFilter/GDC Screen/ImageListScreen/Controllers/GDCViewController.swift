@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageListViewController: UIViewController {
+class GDCViewController: UIViewController {
 
     // MARK: - IBOutlets
 
@@ -170,7 +170,7 @@ class ImageListViewController: UIViewController {
 
 // MARK: - UISearchBarDelegate
 
-extension ImageListViewController: UISearchBarDelegate {
+extension GDCViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
@@ -240,7 +240,7 @@ extension ImageListViewController: UISearchBarDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension ImageListViewController: UITableViewDataSource {
+extension GDCViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.onSections.count
@@ -252,8 +252,8 @@ extension ImageListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.reuseId,
-                                                       for: indexPath) as? ImageTableViewCell else { fatalError("couldn't create ImageTableViewCell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: GDCTableViewCell.reuseId,
+                                                       for: indexPath) as? GDCTableViewCell else { fatalError("couldn't create GDCTableViewCell") }
         
         let image = self.onSections[indexPath.section].dataSource[indexPath.row]
         cell.setImage(with: image.imageUrl ?? "", filter: image.filter)
@@ -263,7 +263,7 @@ extension ImageListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension ImageListViewController: UITableViewDelegate {
+extension GDCViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -276,7 +276,7 @@ extension ImageListViewController: UITableViewDelegate {
 
 // MARK: - ProviderDelegate
 
-extension ImageListViewController: ProviderDelegate {
+extension GDCViewController: ProviderDelegate {
 
     func updateProviderIsOn(provider: Provider, isOn: Bool) {
         
@@ -288,7 +288,7 @@ extension ImageListViewController: ProviderDelegate {
 
 // MARK: - ImageFilterDelegate
 
-extension ImageListViewController: ImageFilterDelegate {
+extension GDCViewController: ImageFilterDelegate {
     
     func updateImageFilter(of image: ImageProtocol, at index: IndexPath) {
         

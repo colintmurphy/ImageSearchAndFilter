@@ -1,5 +1,5 @@
 //
-//  ImageFilterTableViewCell.swift
+//  FilterTableViewCell.swift
 //  ImageFilter
 //
 //  Created by Colin Murphy on 10/3/20.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ImageFilterTableViewCell: UITableViewCell {
+class FilterTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var filterNameLabel: UILabel!
     
-    static var reuseId = "ImageFilterTableViewCell"
+    static var reuseId = "FilterTableViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()

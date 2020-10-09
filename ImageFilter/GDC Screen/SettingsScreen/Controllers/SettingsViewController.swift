@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController {
     
     var providerList: [Provider]?
     private var numberOfProvidersOn: Int?
-    private var settingsTypes: [SettingsType] = []
+    private var settingsTypes: [SettingType] = []
     
     // MARK: - Delegates
     
@@ -39,7 +39,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupData() {
-        self.settingsTypes = Array(repeating: SettingsType.provider, count: self.providerList?.count ?? 0)
+        self.settingsTypes = Array(repeating: SettingType.provider, count: self.providerList?.count ?? 0)
     }
 }
 
@@ -48,12 +48,12 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return SettingsType.count
+        return SettingType.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch SettingsType(rawValue: section) {
+        switch SettingType(rawValue: section) {
         case .provider:
             return self.providerList?.count ?? 0
             
@@ -67,7 +67,7 @@ extension SettingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        switch SettingsType(rawValue: section) {
+        switch SettingType(rawValue: section) {
         case .provider:
             return "Providers"
             
@@ -81,7 +81,7 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch SettingsType(rawValue: indexPath.section) {
+        switch SettingType(rawValue: indexPath.section) {
         case .provider:
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ProviderTableViewCell.reuseId,
@@ -110,7 +110,7 @@ extension SettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch SettingsType(rawValue: indexPath.section) {
+        switch SettingType(rawValue: indexPath.section) {
         case .provider:
             return
             

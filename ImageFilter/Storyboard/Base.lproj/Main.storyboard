@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--GDC-->
+        <!--Find Images-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ImageListViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="GDCViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="196" width="414" height="617"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageTableViewCell" rowHeight="180" id="Z8p-1X-SDX" customClass="ImageTableViewCell" customModule="ImageFilter" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GDCTableViewCell" rowHeight="180" id="Z8p-1X-SDX" customClass="GDCTableViewCell" customModule="ImageFilter" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="180"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Z8p-1X-SDX" id="a9k-RP-Jg6">
@@ -34,7 +34,7 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7T-LR-zkO">
                                                     <rect key="frame" x="60" y="15" width="294" height="150"/>
-                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="150" id="7qM-Ny-q0v"/>
                                                     </constraints>
@@ -85,7 +85,7 @@
                             <constraint firstItem="eYt-2Y-eMf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rkt-yv-Djv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="GDC" id="Zfi-Nj-9Eg">
+                    <navigationItem key="navigationItem" title="Find Images" id="Zfi-Nj-9Eg">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="IRZ-VS-IE1">
                             <connections>
                                 <segue destination="HH5-bR-VzS" kind="show" identifier="toSettings" id="R9y-vb-E2a"/>
@@ -117,20 +117,20 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProviderTableViewCell" id="5Nr-Ky-qjj" customClass="ProviderTableViewCell" customModule="ImageFilter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="51.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Nr-Ky-qjj" id="Unp-WR-6Yt">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me2-Qu-8km">
-                                                    <rect key="frame" x="28" y="15" width="301" height="21.5"/>
+                                                    <rect key="frame" x="28" y="15" width="301" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UTJ-Tc-JUA">
-                                                    <rect key="frame" x="337" y="10.5" width="51" height="31"/>
+                                                    <rect key="frame" x="337" y="10" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -184,7 +184,7 @@
                                 <rect key="frame" x="0.0" y="140" width="414" height="673"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageFilterTableViewCell" id="rNC-nQ-RBq" customClass="ImageFilterTableViewCell" customModule="ImageFilter" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilterTableViewCell" id="rNC-nQ-RBq" customClass="FilterTableViewCell" customModule="ImageFilter" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="51.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rNC-nQ-RBq" id="xol-rU-iRF">
@@ -234,7 +234,7 @@
             </objects>
             <point key="canvasLocation" x="1800" y="889"/>
         </scene>
-        <!--Operations-->
+        <!--Find Images-->
         <scene sceneID="1sf-c5-9f4">
             <objects>
                 <viewController id="a2z-x0-LXU" customClass="OperationViewController" customModule="ImageFilter" customModuleProvider="target" sceneMemberID="viewController">
@@ -315,7 +315,7 @@
                             <constraint firstItem="6uq-Zx-ZDy" firstAttribute="trailing" secondItem="HHL-ue-fX3" secondAttribute="trailing" id="zth-9Z-ONm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Operations" id="Kxz-LK-egH"/>
+                    <navigationItem key="navigationItem" title="Find Images" id="Kxz-LK-egH"/>
                     <connections>
                         <outlet property="activityIndicator" destination="kaZ-py-OiK" id="8QK-3A-ZkO"/>
                         <outlet property="noImagesLabel" destination="uFA-io-BIt" id="zRx-uQ-tak"/>
@@ -349,7 +349,7 @@
         <scene sceneID="D4f-jL-pgR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4GU-Oa-iUJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="GDC" image="circle" catalog="system" id="LAO-up-D1l"/>
+                    <tabBarItem key="tabBarItem" title="GDC" id="LAO-up-D1l"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="RYd-kp-CR2">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -368,7 +368,7 @@
         <scene sceneID="CYH-o1-MhE">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7pm-KE-Lz5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Operations" image="circle.dashed" catalog="system" id="Bfz-MT-XUT"/>
+                    <tabBarItem key="tabBarItem" title="Operations" id="Bfz-MT-XUT"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="njB-FG-svZ">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -385,8 +385,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="circle" catalog="system" width="128" height="121"/>
-        <image name="circle.dashed" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

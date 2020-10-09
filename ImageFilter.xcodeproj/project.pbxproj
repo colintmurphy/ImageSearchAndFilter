@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		211954462527853C0079FB79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954452527853C0079FB79 /* AppDelegate.swift */; };
 		211954482527853C0079FB79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954472527853C0079FB79 /* SceneDelegate.swift */; };
-		2119544A2527853C0079FB79 /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954492527853C0079FB79 /* ImageListViewController.swift */; };
+		2119544A2527853C0079FB79 /* GDCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954492527853C0079FB79 /* GDCViewController.swift */; };
 		2119544D2527853C0079FB79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2119544B2527853C0079FB79 /* Main.storyboard */; };
 		2119544F2527853D0079FB79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2119544E2527853D0079FB79 /* Assets.xcassets */; };
 		211954522527853D0079FB79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 211954502527853D0079FB79 /* LaunchScreen.storyboard */; };
 		2119545C252787020079FB79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119545B252787020079FB79 /* SettingsViewController.swift */; };
 		21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21195462252787480079FB79 /* ProviderTableViewCell.swift */; };
-		2119547225278EAA0079FB79 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119547125278EAA0079FB79 /* ImageTableViewCell.swift */; };
+		2119547225278EAA0079FB79 /* GDCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119547125278EAA0079FB79 /* GDCTableViewCell.swift */; };
 		21195477252790A50079FB79 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21195476252790A50079FB79 /* Provider.swift */; };
 		2119547C2527CFA10079FB79 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119547B2527CFA10079FB79 /* NetworkManager.swift */; };
 		211954802527E0C70079FB79 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119547F2527E0C70079FB79 /* UIViewController+Ext.swift */; };
@@ -29,9 +29,9 @@
 		2146E27C2530AE3900C7D8D5 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E27B2530AE3900C7D8D5 /* OperationViewController.swift */; };
 		216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C82B0252CBC96002FBCF6 /* FilterViewController.swift */; };
 		21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */; };
-		2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */; };
-		2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9422528D4770041E046 /* ImageFilterType.swift */; };
-		2193D9472528D48E0041E046 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9462528D48E0041E046 /* SettingsType.swift */; };
+		2193D93E2528CA390041E046 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* FilterTableViewCell.swift */; };
+		2193D9432528D4770041E046 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9422528D4770041E046 /* FilterType.swift */; };
+		2193D9472528D48E0041E046 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9462528D48E0041E046 /* SettingType.swift */; };
 		2193D94B2528E9DE0041E046 /* CIFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D94A2528E9DE0041E046 /* CIFilterType.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,14 +39,14 @@
 		211954422527853C0079FB79 /* ImageFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		211954452527853C0079FB79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		211954472527853C0079FB79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		211954492527853C0079FB79 /* ImageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewController.swift; sourceTree = "<group>"; };
+		211954492527853C0079FB79 /* GDCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDCViewController.swift; sourceTree = "<group>"; };
 		2119544C2527853C0079FB79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2119544E2527853D0079FB79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		211954512527853D0079FB79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		211954532527853D0079FB79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2119545B252787020079FB79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		21195462252787480079FB79 /* ProviderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderTableViewCell.swift; sourceTree = "<group>"; };
-		2119547125278EAA0079FB79 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
+		2119547125278EAA0079FB79 /* GDCTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDCTableViewCell.swift; sourceTree = "<group>"; };
 		21195476252790A50079FB79 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		2119547B2527CFA10079FB79 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		2119547F2527E0C70079FB79 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
@@ -60,9 +60,9 @@
 		2146E27B2530AE3900C7D8D5 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
 		216C82B0252CBC96002FBCF6 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProtocol.swift; sourceTree = "<group>"; };
-		2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterTableViewCell.swift; sourceTree = "<group>"; };
-		2193D9422528D4770041E046 /* ImageFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterType.swift; sourceTree = "<group>"; };
-		2193D9462528D48E0041E046 /* SettingsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsType.swift; sourceTree = "<group>"; };
+		2193D93D2528CA390041E046 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
+		2193D9422528D4770041E046 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
+		2193D9462528D48E0041E046 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
 		2193D94A2528E9DE0041E046 /* CIFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIFilterType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,7 +148,7 @@
 		2119546A252787920079FB79 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				211954492527853C0079FB79 /* ImageListViewController.swift */,
+				211954492527853C0079FB79 /* GDCViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -156,7 +156,7 @@
 		2119546B252787980079FB79 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2119547125278EAA0079FB79 /* ImageTableViewCell.swift */,
+				2119547125278EAA0079FB79 /* GDCTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				2193D94A2528E9DE0041E046 /* CIFilterType.swift */,
-				2193D9422528D4770041E046 /* ImageFilterType.swift */,
+				2193D9422528D4770041E046 /* FilterType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 		216C82AD252CBC4D002FBCF6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */,
+				2193D93D2528CA390041E046 /* FilterTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 		2193D9412528D4610041E046 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2193D9462528D48E0041E046 /* SettingsType.swift */,
+				2193D9462528D48E0041E046 /* SettingType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -400,17 +400,17 @@
 				2119545C252787020079FB79 /* SettingsViewController.swift in Sources */,
 				2146E27C2530AE3900C7D8D5 /* OperationViewController.swift in Sources */,
 				216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */,
-				2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */,
-				2119544A2527853C0079FB79 /* ImageListViewController.swift in Sources */,
+				2193D93E2528CA390041E046 /* FilterTableViewCell.swift in Sources */,
+				2119544A2527853C0079FB79 /* GDCViewController.swift in Sources */,
 				21195477252790A50079FB79 /* Provider.swift in Sources */,
 				21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */,
 				211954462527853C0079FB79 /* AppDelegate.swift in Sources */,
 				2119547C2527CFA10079FB79 /* NetworkManager.swift in Sources */,
-				2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */,
-				2193D9472528D48E0041E046 /* SettingsType.swift in Sources */,
+				2193D9432528D4770041E046 /* FilterType.swift in Sources */,
+				2193D9472528D48E0041E046 /* SettingType.swift in Sources */,
 				2146E2702530ADAA00C7D8D5 /* JSONOperation.swift in Sources */,
 				211954842527E4A40079FB79 /* MyDelegates.swift in Sources */,
-				2119547225278EAA0079FB79 /* ImageTableViewCell.swift in Sources */,
+				2119547225278EAA0079FB79 /* GDCTableViewCell.swift in Sources */,
 				2146E2732530ADBA00C7D8D5 /* ImageOperation.swift in Sources */,
 				2146E2792530AE2700C7D8D5 /* OperationTableViewCell.swift in Sources */,
 				21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */,

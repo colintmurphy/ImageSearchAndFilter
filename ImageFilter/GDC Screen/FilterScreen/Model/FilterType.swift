@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ImageFilterType: String, Decodable {
+enum FilterType: String, Decodable {
     
     case original = "Original"
     case blackWhite = "Black and White"

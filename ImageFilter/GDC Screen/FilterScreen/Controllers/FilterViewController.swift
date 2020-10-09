@@ -18,7 +18,7 @@ class FilterViewController: UIViewController {
     var image: ImageProtocol?
     var imageIndexPath: IndexPath?
     weak var imageFilterDelegate: ImageFilterDelegate?
-    private var imageFilterTypes: [ImageFilterType] = [.original, .blackWhite, .sepia, .bloom]
+    private var imageFilterTypes: [FilterType] = [.original, .blackWhite, .sepia, .bloom]
     
     // MARK: - View Life Cycles
 
@@ -45,8 +45,8 @@ extension FilterViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImageFilterTableViewCell.reuseId,
-                                                       for: indexPath) as? ImageFilterTableViewCell else { fatalError("couldn't create ImageFilterTableViewCell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FilterTableViewCell.reuseId,
+                                                       for: indexPath) as? FilterTableViewCell else { fatalError("couldn't create FilterTableViewCell") }
         
         cell.set(name: self.imageFilterTypes[indexPath.row].rawValue)
         

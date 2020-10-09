@@ -9,7 +9,7 @@ import Foundation
 
 protocol ImageProtocol: Decodable {
     
-    var filter: ImageFilterType { get set }
+    var filter: FilterType { get set }
     var imageUrl: String? { get }
     
     init(dict: [String: Any])
@@ -17,7 +17,7 @@ protocol ImageProtocol: Decodable {
 
 struct SplashImageInfo: ImageProtocol {
     
-    var filter: ImageFilterType
+    var filter: FilterType
     var imageUrl: String?
 
     init(dict: [String: Any]) {
@@ -29,7 +29,7 @@ struct SplashImageInfo: ImageProtocol {
 
 struct PexelsImageInfo: ImageProtocol {
     
-    var filter: ImageFilterType
+    var filter: FilterType
     var imageUrl: String?
     
     init(dict: [String: Any]) {
@@ -44,7 +44,7 @@ struct PexelsImageInfo: ImageProtocol {
 
 struct PixabayImageInfo: ImageProtocol {
     
-    var filter: ImageFilterType
+    var filter: FilterType
     var imageUrl: String?
     
     init(dict: [String: Any]) {

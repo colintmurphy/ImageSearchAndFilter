@@ -1,5 +1,5 @@
 //
-//  ImageTableViewCell.swift
+//  GDCTableViewCell.swift
 //  ImageFilter
 //
 //  Created by Colin Murphy on 10/2/20.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ImageTableViewCell: UITableViewCell {
+class GDCTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var cellImageView: UIImageView!
 
-    static var reuseId = "ImageTableViewCell"
+    static var reuseId = "GDCTableViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +28,7 @@ class ImageTableViewCell: UITableViewCell {
         self.cellImageView.image = nil
     }
 
-    func setImage(with imageUrl: String, filter: ImageFilterType) {
+    func setImage(with imageUrl: String, filter: FilterType) {
         
         NetworkManager.shared.downloadFilterImage(with: imageUrl, filter: filter) { image in
             if let image = image {

@@ -57,7 +57,7 @@ class NetworkManager {
         }.resume()
     }
     
-    func downloadFilterImage(with imageUrl: String, filter: ImageFilterType, completed: @escaping (UIImage?) -> Void) {
+    func downloadFilterImage(with imageUrl: String, filter: FilterType, completed: @escaping (UIImage?) -> Void) {
         
         self.downloadImage(with: imageUrl) { image in
             if let originalCIImage = image {
