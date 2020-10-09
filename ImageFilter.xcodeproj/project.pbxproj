@@ -108,9 +108,9 @@
 		211954652527874E0079FB79 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				211954532527853D0079FB79 /* Info.plist */,
 				211954502527853D0079FB79 /* LaunchScreen.storyboard */,
 				2119544E2527853D0079FB79 /* Assets.xcassets */,
-				211954532527853D0079FB79 /* Info.plist */,
 				211954452527853C0079FB79 /* AppDelegate.swift */,
 				211954472527853C0079FB79 /* SceneDelegate.swift */,
 			);
@@ -180,9 +180,8 @@
 		21195474252790900079FB79 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2193D94A2528E9DE0041E046 /* CIFilterType.swift */,
 				21704CCB252E902100FBBBB2 /* Network */,
-				21704CCF252E98F300FBBBB2 /* Section Model */,
+				21704CCF252E98F300FBBBB2 /* Section */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -263,6 +262,7 @@
 		216C82AC252CBC42002FBCF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2193D94A2528E9DE0041E046 /* CIFilterType.swift */,
 				2193D9422528D4770041E046 /* ImageFilterType.swift */,
 			);
 			path = Model;
@@ -285,14 +285,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		21704CCF252E98F300FBBBB2 /* Section Model */ = {
+		21704CCF252E98F300FBBBB2 /* Section */ = {
 			isa = PBXGroup;
 			children = (
 				21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */,
 				21195476252790A50079FB79 /* Provider.swift */,
 				211954862527E5010079FB79 /* Section.swift */,
 			);
-			path = "Section Model";
+			path = Section;
 			sourceTree = "<group>";
 		};
 		2193D9412528D4610041E046 /* Model */ = {

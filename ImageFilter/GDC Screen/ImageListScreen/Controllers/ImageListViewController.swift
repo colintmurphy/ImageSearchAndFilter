@@ -129,8 +129,9 @@ class ImageListViewController: UIViewController {
     // MARK: - Keyboard
 
     private func setupKeyboardHandlers() {
-        //let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        //self.view.addGestureRecognizer(tapDismiss)
+        let tapDismiss = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tapDismiss.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapDismiss)
     }
 
     @objc private func dismissKeyboard() {
@@ -225,11 +226,15 @@ extension ImageListViewController: UISearchBarDelegate {
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
+        searchBar.setShowsCancelButton(true, animated: true)
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
     }
 }
 
