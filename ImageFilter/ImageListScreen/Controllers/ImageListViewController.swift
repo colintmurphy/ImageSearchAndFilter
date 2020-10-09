@@ -11,42 +11,50 @@ class ImageListViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-    @IBOutlet private weak var imageTableView: UITableView! {
+    @IBOutlet private weak var tableView: UITableView! {
         didSet {
-            imageTableView.keyboardDismissMode = .onDrag
+            tableView.keyboardDismissMode = .onDrag
         }
     }
-    @IBOutlet private weak var searchBar: UISearchBar!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var searchBar: UISearchBar! {
+        didSet {
+            self.searchBar.delegate = self
+            self.searchBar.enablesReturnKeyAutomatically = true
+        }
+    }
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView! {
+        didSet {
+            self.activityIndicator.hidesWhenStopped = true
+        }
+    }
     @IBOutlet private weak var noImagesLabel: UILabel!
     @IBOutlet private weak var settingsButton: UIBarButtonItem!
+    
+    // MARK: - Dispatches
+    
+    private let concurrentQueue = DispatchQueue(label: "my.concurrent.queue", attributes: .concurrent)
+    private var searchWorkItem: DispatchWorkItem?
     
     // MARK: - Variables
     
     private lazy var providers: [Provider] = {
         return [
             Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters),
-            Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, header: Pexels.headers),
+            Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, headers: Pexels.headers),
             Provider(name: ApiRequestType.pixaBay.rawValue, isOn: true, url: PixaBay.url, parameters: PixaBay.parameters)
         ]
     }()
     
-    private var _sectionDataSource: [Sections] = []
-    private var sectionDataSource: [Sections] {
+    private var _sectionDataSource: [Section] = []
+    private var sectionDataSource: [Section] {
         concurrentQueue.sync {
             return _sectionDataSource
         }
     }
-    
-    private var onSections: [Sections] {
+    private var onSections: [Section] {
         return self.sectionDataSource.filter { $0.provider.isOn }
     }
     
-    // MARK: - Dispatches
-    
-    private let concurrentQueue = DispatchQueue(label: "my.concurrent.queue", attributes: .concurrent)
-    private var searchWorkItem: DispatchWorkItem?
-
     // MARK: - View Life Cycles
 
     override func viewDidLoad() {
@@ -81,7 +89,7 @@ class ImageListViewController: UIViewController {
                 newSection.append(SplashImageInfo(dict: dictionary))
             }
             let splash = Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters)
-            let splashSection = Sections(provider: splash, dataSource: newSection)
+            let splashSection = Section(provider: splash, dataSource: newSection)
             self._sectionDataSource.append(splashSection)
             
         case Pexels.name:
@@ -89,8 +97,8 @@ class ImageListViewController: UIViewController {
             arrayItems.forEach { dictionary in
                 newSection.append(PexelsImageInfo(dict: dictionary))
             }
-            let pexels = Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, header: Pexels.headers)
-            let pexelsSection = Sections(provider: pexels, dataSource: newSection)
+            let pexels = Provider(name: ApiRequestType.pexels.rawValue, isOn: true, url: Pexels.url, parameters: Pexels.parameters, headers: Pexels.headers)
+            let pexelsSection = Section(provider: pexels, dataSource: newSection)
             self._sectionDataSource.append(pexelsSection)
             
         case PixaBay.name:
@@ -99,7 +107,7 @@ class ImageListViewController: UIViewController {
                 newSection.append(PixabayImageInfo(dict: dictionary))
             }
             let pixaBay = Provider(name: ApiRequestType.pixaBay.rawValue, isOn: true, url: PixaBay.url, parameters: PixaBay.parameters)
-            let pixaBaySection = Sections(provider: pixaBay, dataSource: newSection)
+            let pixaBaySection = Section(provider: pixaBay, dataSource: newSection)
             self._sectionDataSource.append(pixaBaySection)
             
         default:
@@ -111,18 +119,11 @@ class ImageListViewController: UIViewController {
 
     private func setup() {
 
-        self.searchBar.delegate = self
-        self.setupTable()
-        self.setupKeyboardHandlers()
-    }
-
-    private func setupTable() {
-
         self.settingsButton.isEnabled = false
-        self.imageTableView.isHidden = true
+        self.tableView.isHidden = true
         self.noImagesLabel.isHidden = false
-        self.activityIndicator.isHidden = true
-        self.imageTableView.reloadData()
+        self.tableView.reloadData()
+        self.setupKeyboardHandlers()
     }
     
     // MARK: - Keyboard
@@ -154,7 +155,7 @@ class ImageListViewController: UIViewController {
         
         if segue.identifier == "toFilter" {
             if let filterVC = segue.destination as? FilterViewController,
-               let indexPath = self.imageTableView.indexPathForSelectedRow {
+               let indexPath = self.tableView.indexPathForSelectedRow {
                     
                 let section = self.sectionDataSource[indexPath.section]
                 let image = section.dataSource[indexPath.row]
@@ -172,8 +173,8 @@ extension ImageListViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
-        let text = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        if text.count < 5 { return }
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if query.count < 5 { return }
         self.searchWorkItem?.cancel()
 
         // MARK: LoaderUI DispatchWorkItem
@@ -192,10 +193,10 @@ extension ImageListViewController: UISearchBarDelegate {
             let providerGroup = DispatchGroup()
             
             for provider in self.providers {
-                let parameters = self.updateParameter(with: text, provider.parameters)
+                let parameters = self.updateParameter(with: query, provider.parameters)
                 providerGroup.enter()
                 
-                NetworkManager.shared.request(urlString: provider.url, headers: provider.header, parameters: parameters) { dictionary in
+                NetworkManager.shared.request(urlString: provider.url, headers: provider.headers, parameters: parameters) { dictionary in
                     self.createSection(provider, dictionary)
                     providerGroup.leave()
                 }
@@ -203,19 +204,17 @@ extension ImageListViewController: UISearchBarDelegate {
             
             // MARK: Update UI w/ Results
             providerGroup.notify(queue: DispatchQueue.main) {
-
                 self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
-                
+
                 if self.sectionDataSource.isEmpty {
                     self.settingsButton.isEnabled = false
                     self.noImagesLabel.isHidden = false
-                    self.imageTableView.isHidden = true
+                    self.tableView.isHidden = true
                 } else {
                     self.settingsButton.isEnabled = true
                     self.noImagesLabel.isHidden = true
-                    self.imageTableView.isHidden = false
-                    self.imageTableView.reloadData()
+                    self.tableView.isHidden = false
+                    self.tableView.reloadData()
                 }
             }
         }
@@ -278,7 +277,7 @@ extension ImageListViewController: ProviderDelegate {
         
         guard let index = self._sectionDataSource.firstIndex(where: { $0.provider == provider }) else { return }
         self._sectionDataSource[index].provider.isOn = isOn
-        self.imageTableView.reloadData()
+        self.tableView.reloadData()
     }
 }
 
@@ -292,8 +291,7 @@ extension ImageListViewController: ImageFilterDelegate {
         for (sectionIndex, section) in self._sectionDataSource.enumerated() where section.provider.name == provider.name {
             self._sectionDataSource[sectionIndex].dataSource[index.row].filter = image.filter
         }
-        //self._sectionDataSource[index.section].dataSource[index.row].filter = image.filter
-        self.imageTableView.reloadRows(at: [index], with: .automatic)
+        self.tableView.reloadRows(at: [index], with: .automatic)
         //self.imageTableView.reloadData()
     }
 }

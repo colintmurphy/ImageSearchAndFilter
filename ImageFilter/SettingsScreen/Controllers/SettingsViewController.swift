@@ -11,7 +11,7 @@ class SettingsViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-    @IBOutlet private weak var settingsTableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
     // MARK: - Variables
     
@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController {
     // MARK: - Setup
 
     private func setupTableView() {
-        self.settingsTableView.tableFooterView = UIView()
+        self.tableView.tableFooterView = UIView()
     }
     
     private func setupData() {

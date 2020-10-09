@@ -13,5 +13,5 @@ struct Provider: Hashable {
     var isOn: Bool
     var url: String
     var parameters: [String: String]
-    var header: [String: String]?
+    var headers: [String: String]?
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Sections {
+struct Section {
     
     var provider: Provider
     var dataSource: [ImageProtocol] = []
