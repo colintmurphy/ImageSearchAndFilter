@@ -22,6 +22,11 @@
 		211954842527E4A40079FB79 /* MyDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954832527E4A40079FB79 /* MyDelegates.swift */; };
 		211954872527E5010079FB79 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954862527E5010079FB79 /* Section.swift */; };
 		2119548A2527E5200079FB79 /* ApiRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211954892527E5200079FB79 /* ApiRequestType.swift */; };
+		2146E2702530ADAA00C7D8D5 /* JSONOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E26F2530ADAA00C7D8D5 /* JSONOperation.swift */; };
+		2146E2732530ADBA00C7D8D5 /* ImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E2722530ADBA00C7D8D5 /* ImageOperation.swift */; };
+		2146E2762530ADC500C7D8D5 /* FilterOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E2752530ADC500C7D8D5 /* FilterOperation.swift */; };
+		2146E2792530AE2700C7D8D5 /* OperationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E2782530AE2700C7D8D5 /* OperationTableViewCell.swift */; };
+		2146E27C2530AE3900C7D8D5 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2146E27B2530AE3900C7D8D5 /* OperationViewController.swift */; };
 		216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C82B0252CBC96002FBCF6 /* FilterViewController.swift */; };
 		21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */; };
 		2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */; };
@@ -48,6 +53,11 @@
 		211954832527E4A40079FB79 /* MyDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDelegates.swift; sourceTree = "<group>"; };
 		211954862527E5010079FB79 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		211954892527E5200079FB79 /* ApiRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestType.swift; sourceTree = "<group>"; };
+		2146E26F2530ADAA00C7D8D5 /* JSONOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONOperation.swift; sourceTree = "<group>"; };
+		2146E2722530ADBA00C7D8D5 /* ImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOperation.swift; sourceTree = "<group>"; };
+		2146E2752530ADC500C7D8D5 /* FilterOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOperation.swift; sourceTree = "<group>"; };
+		2146E2782530AE2700C7D8D5 /* OperationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationTableViewCell.swift; sourceTree = "<group>"; };
+		2146E27B2530AE3900C7D8D5 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
 		216C82B0252CBC96002FBCF6 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProtocol.swift; sourceTree = "<group>"; };
 		2193D93D2528CA390041E046 /* ImageFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterTableViewCell.swift; sourceTree = "<group>"; };
@@ -88,9 +98,8 @@
 			children = (
 				211954652527874E0079FB79 /* Support */,
 				2119547E2527E0B70079FB79 /* Utilities */,
-				211954682527877E0079FB79 /* ImageListScreen */,
-				216C82AA252CBC04002FBCF6 /* SettingsScreen */,
-				21195469252787870079FB79 /* FilterScreen */,
+				2146E2692530AD5C00C7D8D5 /* GDC Screen */,
+				2146E26A2530AD7500C7D8D5 /* Operation Screen */,
 				21195467252787770079FB79 /* Storyboard */,
 			);
 			path = ImageFilter;
@@ -185,6 +194,52 @@
 				2119547F2527E0C70079FB79 /* UIViewController+Ext.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		2146E2692530AD5C00C7D8D5 /* GDC Screen */ = {
+			isa = PBXGroup;
+			children = (
+				211954682527877E0079FB79 /* ImageListScreen */,
+				216C82AA252CBC04002FBCF6 /* SettingsScreen */,
+				21195469252787870079FB79 /* FilterScreen */,
+			);
+			path = "GDC Screen";
+			sourceTree = "<group>";
+		};
+		2146E26A2530AD7500C7D8D5 /* Operation Screen */ = {
+			isa = PBXGroup;
+			children = (
+				2146E26D2530AD9300C7D8D5 /* Model */,
+				2146E26C2530AD8E00C7D8D5 /* View */,
+				2146E26B2530AD8600C7D8D5 /* Controllers */,
+			);
+			path = "Operation Screen";
+			sourceTree = "<group>";
+		};
+		2146E26B2530AD8600C7D8D5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2146E27B2530AE3900C7D8D5 /* OperationViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2146E26C2530AD8E00C7D8D5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2146E2782530AE2700C7D8D5 /* OperationTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2146E26D2530AD9300C7D8D5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2146E26F2530ADAA00C7D8D5 /* JSONOperation.swift */,
+				2146E2722530ADBA00C7D8D5 /* ImageOperation.swift */,
+				2146E2752530ADC500C7D8D5 /* FilterOperation.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		216C82AA252CBC04002FBCF6 /* SettingsScreen */ = {
@@ -340,8 +395,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				211954872527E5010079FB79 /* Section.swift in Sources */,
+				2146E2762530ADC500C7D8D5 /* FilterOperation.swift in Sources */,
 				2193D94B2528E9DE0041E046 /* CIFilterType.swift in Sources */,
 				2119545C252787020079FB79 /* SettingsViewController.swift in Sources */,
+				2146E27C2530AE3900C7D8D5 /* OperationViewController.swift in Sources */,
 				216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */,
 				2193D93E2528CA390041E046 /* ImageFilterTableViewCell.swift in Sources */,
 				2119544A2527853C0079FB79 /* ImageListViewController.swift in Sources */,
@@ -351,8 +408,11 @@
 				2119547C2527CFA10079FB79 /* NetworkManager.swift in Sources */,
 				2193D9432528D4770041E046 /* ImageFilterType.swift in Sources */,
 				2193D9472528D48E0041E046 /* SettingsType.swift in Sources */,
+				2146E2702530ADAA00C7D8D5 /* JSONOperation.swift in Sources */,
 				211954842527E4A40079FB79 /* MyDelegates.swift in Sources */,
 				2119547225278EAA0079FB79 /* ImageTableViewCell.swift in Sources */,
+				2146E2732530ADBA00C7D8D5 /* ImageOperation.swift in Sources */,
+				2146E2792530AE2700C7D8D5 /* OperationTableViewCell.swift in Sources */,
 				21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */,
 				211954482527853C0079FB79 /* SceneDelegate.swift in Sources */,
 				211954802527E0C70079FB79 /* UIViewController+Ext.swift in Sources */,
