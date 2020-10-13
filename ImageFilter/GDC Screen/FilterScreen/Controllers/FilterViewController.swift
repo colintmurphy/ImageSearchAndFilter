@@ -65,7 +65,7 @@ extension FilterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        image?.filter = self.imageFilterTypes[indexPath.row]
+        self.image?.filter = self.imageFilterTypes[indexPath.row]
         
         guard let image = self.image,
               let imageIndexPath = self.imageIndexPath else { return }

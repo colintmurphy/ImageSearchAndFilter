@@ -38,7 +38,7 @@ class OperationViewController: UIViewController {
     
     private var _sectionDataSource: [Section] = []
     private var sectionDataSource: [Section] {
-        return _sectionDataSource
+        return self._sectionDataSource
     }
     private lazy var providers: [Provider] = {
         return [
@@ -79,19 +79,27 @@ class OperationViewController: UIViewController {
     
     // MARK: - Scroll Helpers
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrollViewDidScroll")
-        //operationQueue.isSuspended = true
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        self.operationQueue.cancelAllOperations()
+        self.operationQueue.isSuspended = false
+        #warning("need to do something else, not just assign isSuspended T/F")
+        
+        if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
+            // see all pending operations here
+            // then cancel those pending operations
+            // the those operations will be started
+            
+            // only cancel those that are no longer visible
+            self.tableView.reloadRows(at: visibleIndexes, with: .none)
+        }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("scrollViewDidEndDecelerating")
-        operationQueue.isSuspended = false
-    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print("scrollViewWillBeginDragging")
-        operationQueue.isSuspended = true
+        self.operationQueue.isSuspended = true
     }
     
     // MARK: - Operations
@@ -184,7 +192,10 @@ extension OperationViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: OperationTableViewCell.reuseId,
                                                        for: indexPath) as? OperationTableViewCell else { fatalError("couldn't create OperationTableViewCell") }
 
-        cell.setImage(with: self.sectionDataSource[indexPath.section].dataSource[indexPath.row].imageUrl, using: operationQueue)
+        // have model set that if filter set yet, that way it'll know if should stop running activity indicator
+        
+        cell.setImage(with: self.sectionDataSource[indexPath.section].dataSource[indexPath.row].imageUrl, using: self.operationQueue)
+        
         return cell
     }
 }

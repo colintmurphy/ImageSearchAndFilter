@@ -13,7 +13,7 @@ class GDCViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView! {
         didSet {
-            tableView.keyboardDismissMode = .onDrag
+            self.tableView.keyboardDismissMode = .onDrag
         }
     }
     @IBOutlet private weak var searchBar: UISearchBar! {
@@ -47,8 +47,8 @@ class GDCViewController: UIViewController {
     
     private var _sectionDataSource: [Section] = []
     private var sectionDataSource: [Section] {
-        concurrentQueue.sync {
-            return _sectionDataSource
+        self.concurrentQueue.sync {
+            return self._sectionDataSource
         }
     }
     private var onSections: [Section] {
