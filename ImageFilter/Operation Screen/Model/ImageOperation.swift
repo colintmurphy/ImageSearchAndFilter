@@ -44,34 +44,11 @@ class ImageOperation: Operation {
         if isCancelled { return }
         
         guard let imageUrlString = self.imageUrl else { return }
-        self.downloadImage(with: imageUrlString) { ciImage in
+        ImageManager.shared.downloadImage(with: imageUrlString) { ciImage in
             if let ciImage = ciImage {
-                
                 self.image = UIImage(ciImage: ciImage)
                 self.isFinished = true
             }
-        }
-    }
-    
-    // MARK: - Download Image
-    
-    private func downloadImage(with imageUrl: String, completed: @escaping (CIImage?) -> Void) {
-        
-        let cacheKey = NSString(string: imageUrl)
-        if let image = cache.object(forKey: cacheKey) {
-            completed(image)
-            return
-        }
-        
-        if let url = URL(string: imageUrl),
-            let image = CIImage(contentsOf: url) {
-            
-            self.cache.setObject(image, forKey: cacheKey)
-            completed(image)
-            return
-        } else {
-            completed(nil)
-            return
         }
     }
 }

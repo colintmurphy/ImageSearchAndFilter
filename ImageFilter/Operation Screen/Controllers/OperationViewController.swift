@@ -35,11 +35,12 @@ class OperationViewController: UIViewController {
     
     private var timer: Timer?
     private let operationQueue = OperationQueue()
-    
     private var _sectionDataSource: [Section] = []
+    
     private var sectionDataSource: [Section] {
         return self._sectionDataSource
     }
+    
     private lazy var providers: [Provider] = {
         return [
             Provider(name: ApiRequestType.splash.rawValue, isOn: true, url: Splash.url, parameters: Splash.parameters),
@@ -51,7 +52,6 @@ class OperationViewController: UIViewController {
     // MARK: - View Life Cycles
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         self.setup()
     }
@@ -83,23 +83,21 @@ class OperationViewController: UIViewController {
         
         self.operationQueue.cancelAllOperations()
         self.operationQueue.isSuspended = false
-        #warning("need to do something else, not just assign isSuspended T/F")
         
         if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
-            // see all pending operations here
-            // then cancel those pending operations
-            // the those operations will be started
-            
-            // only cancel those that are no longer visible
-            self.tableView.reloadRows(at: visibleIndexes, with: .none)
+            self.loadVisibleIndexes(at: visibleIndexes)
         }
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        }
-    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
         self.operationQueue.isSuspended = true
+        
+        if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
+            for index in visibleIndexes where self.sectionDataSource[index.section].dataSource[index.row].state == .inprogress {
+                self._sectionDataSource[index.section].dataSource[index.row].state = .pending
+            }
+        }
     }
     
     // MARK: - Operations
@@ -119,6 +117,9 @@ class OperationViewController: UIViewController {
                     self.noImagesLabel.isHidden = true
                     self.tableView.isHidden = false
                     self.tableView.reloadData()
+                    if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
+                        self.loadVisibleIndexes(at: visibleIndexes)
+                    }
                 }
             }
         }
@@ -136,6 +137,53 @@ class OperationViewController: UIViewController {
             self.operationQueue.addOperation(operation)
         }
         self.operationQueue.addOperation(notifyOperation)
+    }
+    
+    private func fetchImage(with imageUrl: String?, completion: @escaping (DownloadState) -> Void) {
+        
+        guard let imageUrl = imageUrl else { return }
+        completion(.inprogress)
+        let imageOperation = ImageOperation(imageUrl: imageUrl)
+        imageOperation.completionBlock = {
+            
+            OperationQueue.main.addOperation {
+                //self.resultImageView.image = imageOperation.image
+                guard let operationImage = imageOperation.image else { return }
+                completion(.original)
+                let filterOperation = FilterOperation(image: operationImage)
+                
+                filterOperation.completionBlock = {
+                    OperationQueue.main.addOperation {
+                        completion(.filter)
+                        //self.resultImageView.image = filterOperation.filteredImage
+                    }
+                }
+                filterOperation.start()
+            }
+        }
+        self.operationQueue.addOperation(imageOperation)
+    }
+    
+    private func loadVisibleIndexes(at indexs: [IndexPath]) {
+        
+        for index in indexs {
+            
+            self.fetchImage(with: self.sectionDataSource[index.section].dataSource[index.row].imageUrl) { state in
+                self._sectionDataSource[index.section].dataSource[index.row].state = state
+                
+                switch state {
+                
+                case .filter, .original:
+                    self.tableView.reloadRows(at: [index], with: .none)
+                
+                case .inprogress:
+                    break
+                
+                case .pending:
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -191,10 +239,8 @@ extension OperationViewController: UITableViewDataSource {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: OperationTableViewCell.reuseId,
                                                        for: indexPath) as? OperationTableViewCell else { fatalError("couldn't create OperationTableViewCell") }
-
-        // have model set that if filter set yet, that way it'll know if should stop running activity indicator
         
-        cell.setImage(with: self.sectionDataSource[indexPath.section].dataSource[indexPath.row].imageUrl, using: self.operationQueue)
+        cell.setImage(with: self.sectionDataSource[indexPath.section].dataSource[indexPath.row])
         
         return cell
     }

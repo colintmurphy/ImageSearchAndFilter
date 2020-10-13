@@ -42,6 +42,33 @@ class OperationTableViewCell: UITableViewCell {
     
     // MARK: - Update Cell Methods
     
+    func setImage(with imageData: ImageProtocol) {
+        
+        switch imageData.state {
+        case .filter:
+            self.activityIndicator.stopAnimating()
+            guard let url = imageData.imageUrl else { return }
+            ImageManager.shared.downloadImage(with: url) { ciImage in
+                guard let image = ciImage else { return }
+                self.resultImageView.image = UIImage(ciImage: image)
+            }
+            
+        case .original:
+            self.activityIndicator.stopAnimating()
+            guard let url = imageData.imageUrl else { return }
+            ImageManager.shared.downloadImage(with: url) { ciImage in
+                guard let image = ciImage else { return }
+                self.resultImageView.image = UIImage(ciImage: image)
+            }
+            
+        case .inprogress:
+            self.activityIndicator.startAnimating()
+            
+        case .pending:
+            self.activityIndicator.stopAnimating()
+        }
+    }
+    
     func setImage(with imageUrl: String?, using queue: OperationQueue) {
         
         guard let imageUrl = imageUrl else { return }
