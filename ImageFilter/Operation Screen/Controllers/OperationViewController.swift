@@ -11,6 +11,7 @@ class OperationViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView! {
         didSet {
+            self.tableView.isHidden = !self.sectionDataSource.isEmpty
             self.tableView.keyboardDismissMode = .onDrag
         }
     }
@@ -20,11 +21,7 @@ class OperationViewController: UIViewController {
             self.searchBar.enablesReturnKeyAutomatically = true
         }
     }
-    @IBOutlet private weak var noImagesLabel: UILabel! {
-        didSet {
-            self.noImagesLabel.isHidden = false
-        }
-    }
+    @IBOutlet private weak var noImagesLabel: UILabel!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView! {
         didSet {
             self.activityIndicator.hidesWhenStopped = true
@@ -33,9 +30,18 @@ class OperationViewController: UIViewController {
 
     // MARK: - Variables
     
+    private var indexDict: [IndexPath: DownloadState] = [:]
+    private var imageDict: [IndexPath: UIImage] = [:]
+    
     private var timer: Timer?
     private let operationQueue = OperationQueue()
-    private var _sectionDataSource: [Section] = []
+    private var _sectionDataSource: [Section] = [] {
+        didSet {
+            OperationQueue.main.addOperation {
+                self.noImagesLabel.isHidden = !self.sectionDataSource.isEmpty
+            }
+        }
+    }
     
     private var sectionDataSource: [Section] {
         return self._sectionDataSource
@@ -59,8 +65,6 @@ class OperationViewController: UIViewController {
     // MARK: - Setup
 
     private func setup() {
-
-        self.tableView.isHidden = true
         self.tableView.reloadData()
         self.setupKeyboardHandlers()
     }
@@ -75,6 +79,88 @@ class OperationViewController: UIViewController {
 
     @objc private func dismissKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    // MARK: - Operations
+    
+    private func loadImage(withQueryString query: String) {
+        
+        self.operationQueue.maxConcurrentOperationCount = 2
+        
+        let notifyOperation = BlockOperation {
+            OperationQueue.main.addOperation {
+                self.activityIndicator.stopAnimating()
+                if !self.sectionDataSource.isEmpty {
+                    self.tableView.reloadData()
+                    if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
+                        self.loadVisibleIndexes(at: visibleIndexes)
+                    }
+                }
+            }
+        }
+        
+        self.providers.forEach { provider in
+            let operation = JSONOperation(query, provider: provider)
+            
+            operation.completionBlock = {
+                guard let section = operation.section else { return }
+                self.operationQueue.addBarrierBlock {
+                    self._sectionDataSource.append(section)
+                }
+            }
+            notifyOperation.addDependency(operation)
+            self.operationQueue.addOperation(operation)
+        }
+        self.operationQueue.addOperation(notifyOperation)
+    }
+    
+    private func loadVisibleIndexes(at indexes: [IndexPath]) {
+        
+        for index in indexes where self.sectionDataSource[index.section].dataSource[index.row].state != .filter {
+            
+            self.fetchImage(with: self.sectionDataSource[index.section].dataSource[index.row].imageUrl) { state, image in
+                
+                self.operationQueue.addBarrierBlock {
+                    self._sectionDataSource[index.section].dataSource[index.row].state = state
+                    self._sectionDataSource[index.section].dataSource[index.row].currentImage = image
+                }
+                
+                switch state {
+                case .filter, .original, .downloading:
+                    OperationQueue.main.addOperation {
+                        self.tableView.beginUpdates()
+                        self.tableView.reloadRows(at: [index], with: .none)
+                        self.tableView.endUpdates()
+                    }
+                    
+                case .pending:
+                    break
+                }
+            }
+        }
+    }
+    
+    private func fetchImage(with imageUrl: String?, completion: @escaping (DownloadState, UIImage?) -> Void) {
+        
+        guard let imageUrl = imageUrl else { return }
+        completion(.downloading, nil)
+        let imageOperation = ImageOperation(imageUrl: imageUrl)
+        imageOperation.completionBlock = {
+            
+            self.operationQueue.addOperation {
+                guard let operationImage = imageOperation.image else { return }
+                completion(.original, operationImage)
+                let filterOperation = FilterOperation(image: operationImage)
+                
+                filterOperation.completionBlock = {
+                    self.operationQueue.addOperation {
+                        completion(.filter, filterOperation.filteredImage)
+                    }
+                }
+                filterOperation.start()
+            }
+        }
+        self.operationQueue.addOperation(imageOperation)
     }
     
     // MARK: - Scroll Helpers
@@ -92,96 +178,14 @@ class OperationViewController: UIViewController {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
         self.operationQueue.isSuspended = true
-        
         if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
-            for index in visibleIndexes where self.sectionDataSource[index.section].dataSource[index.row].state == .inprogress {
-                self._sectionDataSource[index.section].dataSource[index.row].state = .pending
-            }
-        }
-    }
-    
-    // MARK: - Operations
-    
-    private func loadImage(withQueryString query: String) {
-        
-        self.operationQueue.maxConcurrentOperationCount = 2
-        
-        let notifyOperation = BlockOperation {
-            OperationQueue.main.addOperation {
-                self.activityIndicator.stopAnimating()
-                
-                if self.sectionDataSource.isEmpty {
-                    self.noImagesLabel.isHidden = false
-                    self.tableView.isHidden = true
-                } else {
-                    self.noImagesLabel.isHidden = true
-                    self.tableView.isHidden = false
-                    self.tableView.reloadData()
-                    if let visibleIndexes = self.tableView.indexPathsForVisibleRows {
-                        self.loadVisibleIndexes(at: visibleIndexes)
-                    }
-                }
-            }
-        }
-        
-        self.providers.forEach { provider in
-            let operation = JSONOperation(query, provider: provider)
             
-            operation.completionBlock = {
-                guard let section = operation.section else { return }
-                DispatchQueue.global().sync(flags: .barrier) {
-                    self._sectionDataSource.append(section)
-                }
-            }
-            notifyOperation.addDependency(operation)
-            self.operationQueue.addOperation(operation)
-        }
-        self.operationQueue.addOperation(notifyOperation)
-    }
-    
-    private func fetchImage(with imageUrl: String?, completion: @escaping (DownloadState) -> Void) {
-        
-        guard let imageUrl = imageUrl else { return }
-        completion(.inprogress)
-        let imageOperation = ImageOperation(imageUrl: imageUrl)
-        imageOperation.completionBlock = {
+            var pendingPaths = Set(self.indexDict.keys)
+            let visiblePaths = Set(visibleIndexes)
+            pendingPaths.subtract(visiblePaths)
             
-            OperationQueue.main.addOperation {
-                //self.resultImageView.image = imageOperation.image
-                guard let operationImage = imageOperation.image else { return }
-                completion(.original)
-                let filterOperation = FilterOperation(image: operationImage)
-                
-                filterOperation.completionBlock = {
-                    OperationQueue.main.addOperation {
-                        completion(.filter)
-                        //self.resultImageView.image = filterOperation.filteredImage
-                    }
-                }
-                filterOperation.start()
-            }
-        }
-        self.operationQueue.addOperation(imageOperation)
-    }
-    
-    private func loadVisibleIndexes(at indexs: [IndexPath]) {
-        
-        for index in indexs {
-            
-            self.fetchImage(with: self.sectionDataSource[index.section].dataSource[index.row].imageUrl) { state in
-                self._sectionDataSource[index.section].dataSource[index.row].state = state
-                
-                switch state {
-                
-                case .filter, .original:
-                    self.tableView.reloadRows(at: [index], with: .none)
-                
-                case .inprogress:
-                    break
-                
-                case .pending:
-                    break
-                }
+            for path in pendingPaths where self.indexDict[path] == .downloading {
+                self._sectionDataSource[path.section].dataSource[path.row].state = .pending
             }
         }
     }
@@ -203,8 +207,8 @@ extension OperationViewController: UISearchBarDelegate {
         if query.count < 5 { return }
         
         self.timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(3), repeats: false) { _ in
-            self.noImagesLabel.isHidden = true
             self.activityIndicator.startAnimating()
+            self.noImagesLabel.isHidden = true
             self._sectionDataSource.removeAll()
             self.loadImage(withQueryString: query)
         }
@@ -241,6 +245,7 @@ extension OperationViewController: UITableViewDataSource {
                                                        for: indexPath) as? OperationTableViewCell else { fatalError("couldn't create OperationTableViewCell") }
         
         cell.setImage(with: self.sectionDataSource[indexPath.section].dataSource[indexPath.row])
+        self.indexDict[indexPath] = self.sectionDataSource[indexPath.section].dataSource[indexPath.row].state
         
         return cell
     }

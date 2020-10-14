@@ -11,6 +11,6 @@ enum DownloadState: String, Decodable {
     
     case filter
     case original
-    case inprogress
+    case downloading
     case pending
 }

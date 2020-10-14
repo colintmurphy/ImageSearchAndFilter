@@ -57,12 +57,12 @@ class NetworkManager {
         }.resume()
     }
     
-    func downloadFilterImage(with imageUrl: String, filter: FilterType, completed: @escaping (UIImage?) -> Void) {
+    func downloadFilterImage(with imageUrl: String, filter: FilterType, completion: @escaping (UIImage?) -> Void) {
         
         self.downloadImage(with: imageUrl) { image in
             if let originalCIImage = image {
                 var newImage = UIImage(ciImage: originalCIImage)
-                
+
                 switch filter {
                 case .original:
                     break
@@ -83,34 +83,32 @@ class NetworkManager {
                         newImage = UIImage(cgImage: cgOutputImage)
                     }
                 }
-                completed(newImage)
-                return
+                completion(newImage)
             } else {
-                completed(nil)
-                return
+                completion(nil)
             }
         }
     }
     
     // MARK: - Private Helpers
     
-    private func downloadImage(with imageUrl: String, completed: @escaping (CIImage?) -> Void) {
+    private func downloadImage(with imageUrl: String, completion: @escaping (CIImage?) -> Void) {
         
         let cacheKey = NSString(string: imageUrl)
         
+        if let image = self.cache.object(forKey: cacheKey) {
+            completion(image)
+            return
+        }
+        
         DispatchQueue.global().async {
-            if let image = self.cache.object(forKey: cacheKey) {
-                completed(image)
-                return
-            } else if let url = URL(string: imageUrl),
+            if let url = URL(string: imageUrl),
                 let image = CIImage(contentsOf: url) {
                 
                 self.cache.setObject(image, forKey: cacheKey)
-                completed(image)
-                return
+                completion(image)
             } else {
-                completed(nil)
-                return
+                completion(nil)
             }
         }
     }

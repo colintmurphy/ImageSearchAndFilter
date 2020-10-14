@@ -30,7 +30,6 @@
 		216C82B1252CBC96002FBCF6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C82B0252CBC96002FBCF6 /* FilterViewController.swift */; };
 		21704CC9252E8FF900FBBBB2 /* ImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */; };
 		218FD58C2535449E00E2B260 /* DownloadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218FD58B2535449E00E2B260 /* DownloadState.swift */; };
-		218FD58F2535491E00E2B260 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218FD58E2535491E00E2B260 /* ImageManager.swift */; };
 		2193D93E2528CA390041E046 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D93D2528CA390041E046 /* FilterTableViewCell.swift */; };
 		2193D9432528D4770041E046 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9422528D4770041E046 /* FilterType.swift */; };
 		2193D9472528D48E0041E046 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193D9462528D48E0041E046 /* SettingType.swift */; };
@@ -63,7 +62,6 @@
 		216C82B0252CBC96002FBCF6 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		21704CC8252E8FF900FBBBB2 /* ImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProtocol.swift; sourceTree = "<group>"; };
 		218FD58B2535449E00E2B260 /* DownloadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadState.swift; sourceTree = "<group>"; };
-		218FD58E2535491E00E2B260 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		2193D93D2528CA390041E046 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 		2193D9422528D4770041E046 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		2193D9462528D48E0041E046 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 			children = (
 				2146E26F2530ADAA00C7D8D5 /* JSONOperation.swift */,
 				2146E2722530ADBA00C7D8D5 /* ImageOperation.swift */,
-				218FD58E2535491E00E2B260 /* ImageManager.swift */,
 				2146E2752530ADC500C7D8D5 /* FilterOperation.swift */,
 			);
 			path = Model;
@@ -421,7 +418,6 @@
 				2146E2792530AE2700C7D8D5 /* OperationTableViewCell.swift in Sources */,
 				21195463252787480079FB79 /* ProviderTableViewCell.swift in Sources */,
 				211954482527853C0079FB79 /* SceneDelegate.swift in Sources */,
-				218FD58F2535491E00E2B260 /* ImageManager.swift in Sources */,
 				211954802527E0C70079FB79 /* UIViewController+Ext.swift in Sources */,
 				2119548A2527E5200079FB79 /* ApiRequestType.swift in Sources */,
 				218FD58C2535449E00E2B260 /* DownloadState.swift in Sources */,
@@ -574,7 +570,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 69P6K7C2T4;
 				INFOPLIST_FILE = ImageFilter/Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -594,7 +590,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 69P6K7C2T4;
 				INFOPLIST_FILE = ImageFilter/Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

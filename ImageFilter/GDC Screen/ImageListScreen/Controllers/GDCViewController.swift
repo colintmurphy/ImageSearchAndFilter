@@ -58,17 +58,15 @@ class GDCViewController: UIViewController {
     // MARK: - View Life Cycles
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         self.setup()
     }
     
-    // MARK: - Helpers
+    // MARK: - Create Sections
     
     private func updateParameter(with text: String, _ dict: [String: String]) -> [String: String] {
         
         var parameters = dict
-        
         if dict["query"] != nil {
             parameters["query"] = text
         } else if parameters["q"] != nil {
@@ -114,7 +112,7 @@ class GDCViewController: UIViewController {
             break
         }
     }
-
+    
     // MARK: - Setup
 
     private func setup() {
@@ -224,7 +222,8 @@ extension GDCViewController: UISearchBarDelegate {
             DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: work)
         }
     }
-
+    
+    // MARK: Handle Cancel Button
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
@@ -297,6 +296,5 @@ extension GDCViewController: ImageFilterDelegate {
             self._sectionDataSource[sectionIndex].dataSource[index.row].filter = image.filter
         }
         self.tableView.reloadRows(at: [index], with: .automatic)
-        //self.imageTableView.reloadData()
     }
 }

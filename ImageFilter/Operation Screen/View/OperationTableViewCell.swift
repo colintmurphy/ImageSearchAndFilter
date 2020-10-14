@@ -47,51 +47,20 @@ class OperationTableViewCell: UITableViewCell {
         switch imageData.state {
         case .filter:
             self.activityIndicator.stopAnimating()
-            guard let url = imageData.imageUrl else { return }
-            ImageManager.shared.downloadImage(with: url) { ciImage in
-                guard let image = ciImage else { return }
-                self.resultImageView.image = UIImage(ciImage: image)
-            }
+            self.resultImageView.image = imageData.currentImage
             
         case .original:
             self.activityIndicator.stopAnimating()
-            guard let url = imageData.imageUrl else { return }
-            ImageManager.shared.downloadImage(with: url) { ciImage in
-                guard let image = ciImage else { return }
-                self.resultImageView.image = UIImage(ciImage: image)
-            }
+            self.resultImageView.image = imageData.currentImage
             
-        case .inprogress:
+        case .downloading:
             self.activityIndicator.startAnimating()
+            self.resultImageView.image = nil
             
         case .pending:
             self.activityIndicator.stopAnimating()
+            self.resultImageView.image = nil
         }
-    }
-    
-    func setImage(with imageUrl: String?, using queue: OperationQueue) {
-        
-        guard let imageUrl = imageUrl else { return }
-        self.activityIndicator.startAnimating()
-
-        let imageOperation = ImageOperation(imageUrl: imageUrl)
-        imageOperation.completionBlock = {
-            
-            OperationQueue.main.addOperation {
-                self.resultImageView.image = imageOperation.image
-                guard let operationImage = imageOperation.image else { return }
-                let filterOperation = FilterOperation(image: operationImage)
-                
-                filterOperation.completionBlock = {
-                    OperationQueue.main.addOperation {
-                        self.activityIndicator.stopAnimating()
-                        self.resultImageView.image = filterOperation.filteredImage
-                    }
-                }
-                filterOperation.start()
-            }
-        }
-        queue.addOperation(imageOperation)
     }
     
     private func setupUI() {

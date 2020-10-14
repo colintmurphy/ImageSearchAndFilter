@@ -13,6 +13,7 @@ class FilterOperation: Operation {
     
     var filteredImage: UIImage?
     private var image: UIImage
+    private let cache = NSCache<NSString, UIImage>()
     
     // MARK: - Override Operation Variables
     
@@ -44,8 +45,17 @@ class FilterOperation: Operation {
         
         guard let ciImage = self.image.ciImage else { return }
         
+        let cacheKey = NSString(string: ciImage.description)
+        
+        if let image = cache.object(forKey: cacheKey) {
+            self.filteredImage = image
+            return
+        }
+        
         if let filterImage = self.setFilter(ciImage, filterType: CIFilterType.blackWhite) {
-            self.filteredImage = UIImage(ciImage: filterImage)
+            let image = UIImage(ciImage: filterImage)
+            self.filteredImage = image
+            self.cache.setObject(image, forKey: cacheKey)
             self.isFinished = true
         }
     }
